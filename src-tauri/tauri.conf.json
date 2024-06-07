@@ -1,24 +1,9 @@
 {
-  "productName": "dreamy",
-  "version": "0.0.0",
-  "identifier": "com.tauri.dev",
   "build": {
     "beforeDevCommand": "npm run dev",
-    "devUrl": "http://localhost:1420",
     "beforeBuildCommand": "npm run build",
-    "frontendDist": "../dist"
-  },
-  "app": {
-    "windows": [
-      {
-        "title": "dreamy",
-        "width": 800,
-        "height": 600
-      }
-    ],
-    "security": {
-      "csp": null
-    }
+    "frontendDist": "../dist",
+    "devUrl": "http://localhost:1420"
   },
   "bundle": {
     "active": true,
@@ -29,6 +14,22 @@
       "icons/128x128@2x.png",
       "icons/icon.icns",
       "icons/icon.ico"
+    ]
+  },
+  "productName": "dreamy",
+  "version": "0.0.0",
+  "identifier": "com.dreamy",
+  "plugins": {},
+  "app": {
+    "security": {
+      "csp": null
+    },
+    "windows": [
+      {
+        "title": "dreamy",
+        "width": 1920,
+        "height": 1080
+      }
     ]
   }
 }

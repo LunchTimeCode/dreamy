@@ -1,0 +1,65 @@
+use std::fs;
+use std::fs::File;
+use std::io::Read;
+use std::path::PathBuf;
+use serde_json::Error;
+use crate::representation::{Deps, Repo};
+
+pub fn load(source_folder: &str) -> Result<Deps,DepError> {
+
+    let mut repos:Vec<Repo> =  vec![];
+    for entry in fs::read_dir(source_folder)? {
+        let entry = entry?;
+        let path = entry.path();
+
+        let Some(ext) = path.extension() else {
+            return Err(DepError::default())
+        };
+
+        if ext == "json" {
+            println!("loading file");
+           let repo = load_from_file(path)?;
+           repos.push(repo)
+        }
+
+
+    }
+
+    Ok(Deps {
+        repos
+    })
+}
+
+fn load_from_file(file_name: PathBuf) -> Result<Repo, DepError> {
+    let mut file = File::open(file_name)?;
+    let mut data = String::new();
+    file.read_to_string(&mut data)?;
+    let res: Repo = serde_json::from_str(&data)?;
+    Ok(res)
+}
+
+#[derive(Debug, Clone, PartialEq)]
+pub struct DepError{
+    reason: String
+}
+
+impl Default for DepError{
+    fn default() -> Self {
+       Self{ reason: "general".to_string()}
+    }
+}
+
+impl From<Error> for DepError{
+    fn from(value: Error) -> Self {
+        Self{
+            reason: value.to_string()
+        }
+    }
+}
+impl From<std::io::Error> for DepError{
+    fn from(value: std::io::Error) -> Self {
+        Self{
+            reason: value.to_string()
+        }
+    }
+}
