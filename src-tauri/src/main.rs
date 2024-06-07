@@ -8,7 +8,7 @@ mod loader;
 #[tauri::command]
 fn greet(name: &str) -> String {
     match load(name){
-        Ok(res) =>  format!("{:#?}", res),
+        Ok(res) =>  serde_json::to_string_pretty(&res).unwrap(),
         Err(e) =>  format!("{:#?}", e)
     }
 }

@@ -1,7 +1,7 @@
 use serde_derive::Deserialize;
 use serde_derive::Serialize;
 
-#[derive(Default, Debug, Clone, PartialEq)]
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct Deps {
     pub repos: Vec<Repo>,
 }
@@ -62,10 +62,7 @@ pub struct ActionDep {
     pub datasource: String,
     pub versioning: Option<String>,
     pub dep_type: String,
-    pub replace_string: String,
-    pub auto_replace_string_template: String,
     pub current_value: String,
-    pub skip_reason: Option<String>,
 }
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
