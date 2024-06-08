@@ -1,80 +1,30 @@
 use serde_derive::Deserialize;
 use serde_derive::Serialize;
+use std::collections::HashMap;
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct Deps {
+    pub organisation: String,
     pub repos: Vec<Repo>,
 }
-
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Repo {
     pub repo: String,
     pub organisation: String,
-    pub package_data: PackageData,
-    pub metadata: Metadata,
+    pub package_data: Option<HashMap<String, Vec<DepGroup>>>,
 }
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub struct PackageData {
-    pub cargo: Option<Vec<Cargo>>,
-    #[serde(rename = "github-actions")]
-    pub github_actions: Option<Vec<Action>>,
-}
-
-#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
-pub struct Cargo {
-    pub deps: Vec<CargoDep>,
-    pub package_file_version: String,
+pub struct DepGroup {
+    pub deps: Vec<Dep>,
     pub package_file: String,
 }
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub struct CargoDep {
+pub struct Dep {
     pub dep_name: String,
-    pub dep_type: String,
-    pub current_value: String,
-    pub manager_data: ManagerData,
-    pub datasource: String,
-}
-
-#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
-pub struct ManagerData {
-    pub nested_version: bool,
-}
-
-#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
-pub struct Action {
-    pub deps: Vec<ActionDep>,
-    pub package_file: String,
-}
-
-#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
-pub struct ActionDep {
-    pub dep_name: String,
-    pub commit_message_topic: Option<String>,
-    pub datasource: String,
-    pub versioning: Option<String>,
-    pub dep_type: String,
-    pub current_value: String,
-}
-
-#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
-pub struct Metadata {
-    pub renovate: Renovate,
-}
-
-#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
-pub struct Renovate {
-    pub major: i64,
-    pub version: String,
-    pub platform: String,
+    pub current_value: Option<String>,
 }

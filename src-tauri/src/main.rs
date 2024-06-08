@@ -3,13 +3,13 @@
 
 use crate::loader::load;
 
-mod representation;
 mod loader;
+mod representation;
 #[tauri::command]
 fn greet(name: &str) -> String {
-    match load(name){
-        Ok(res) =>  serde_json::to_string_pretty(&res).unwrap(),
-        Err(e) =>  format!("{:#?}", e)
+    match load(name) {
+        Ok(res) => serde_json::to_string_pretty(&res).unwrap(),
+        Err(e) => format!("{:#?}", e),
     }
 }
 

@@ -1,4 +1,33 @@
+set dotenv-load := true
+
+alias v := verify
+alias r := run
+
+bt := '0'
+log := "warn"
+
+@_list:
+    just --list --unsorted
+
+run:
+    cargo run
+
+install:
+    cargo install --path .
+
+# Perform all verifications (compile, test, lint, etc.)
+@verify: test lint
+    echo ------------ verify done! ------------
 
 
+# Run the tests
 test:
-    cargo test
+    cargo hack test --feature-powerset
+
+# Run the static code analysis
+lint:
+    cargo fmt --all -- --check
+    cargo hack clippy --feature-powerset --all-targets --workspace
+
+fmt:
+    cargo fmt
