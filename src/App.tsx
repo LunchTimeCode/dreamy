@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import { open } from "@tauri-apps/plugin-dialog";
 import Button from "@mui/material/Button";
@@ -7,6 +7,7 @@ import { FlatDepCompOrNothing } from "./FlatDep.tsx";
 import { Tab, Tabs } from "@mui/material";
 import { Box } from "@mui/material";
 import * as React from "react";
+import { downloadDir } from "@tauri-apps/api/path";
 
 function App() {
   const [value, setValue] = React.useState(0);
@@ -15,9 +16,16 @@ function App() {
     setValue(newValue);
   };
 
-  const [sourcePath, setSourcePath] = useState("/home/silen/pers/dreamy/out");
+  const [sourcePath, setSourcePath] = useState("");
 
   const [flat, setFlat] = useState<FlatDep[]>();
+
+  useEffect(() => {
+    downloadDir().then((r) => {
+      const res = r + "/out";
+      setSourcePath(res);
+    });
+  });
 
   async function fromRustFlat() {
     // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
@@ -73,7 +81,7 @@ function App() {
               aria-label="basic tabs example"
             >
               <Tab label="All Flat" {...a11yProps(0)} />
-              <Tab label="Item Two" {...a11yProps(1)} />
+              <Tab label="Download in the app" {...a11yProps(1)} />
             </Tabs>
           </Box>
 
@@ -86,6 +94,8 @@ function App() {
               <FlatDepCompOrNothing w={flat} />
             </div>
           </CustomTabPanel>
+
+          <CustomTabPanel value={value} index={1}></CustomTabPanel>
         </Box>
       </div>
     </>

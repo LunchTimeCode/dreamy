@@ -6,7 +6,7 @@ function FlatDepComp(props: { flatDep: readonly FlatDep[] }) {
     <>
       <Card variant="elevation">
         <CardHeader title="Depenencies" />
-        <Box sx={{ height: 800, width: "100%" }}>
+        <Box sx={{ height: 700, width: "100%" }}>
           <DataGrid
             rows={props.flatDep}
             columns={columns}
