@@ -1,3 +1,4 @@
+use crate::read_model::{flatten, FlatDep};
 use crate::representation::{Deps, Repo};
 use serde_json::Error;
 use std::fs;
@@ -5,7 +6,7 @@ use std::fs::File;
 use std::io::Read;
 use std::path::PathBuf;
 
-pub fn load(source_folder: &str) -> Result<Deps, DepError> {
+pub fn load_flat(source_folder: &str) -> Result<Vec<FlatDep>, DepError> {
     let mut organisation: Option<String> = None;
     let mut repos: Vec<Repo> = vec![];
     for entry in fs::read_dir(source_folder)? {
@@ -30,10 +31,12 @@ pub fn load(source_folder: &str) -> Result<Deps, DepError> {
         return Err(DepError::default());
     };
 
-    Ok(Deps {
+    let x = flatten(Deps {
         organisation,
         repos,
-    })
+    });
+
+    Ok(x)
 }
 
 fn load_from_file(file_name: PathBuf) -> Result<Repo, DepError> {
