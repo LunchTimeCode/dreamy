@@ -25,7 +25,7 @@ build:
     just run-m run build
 
 test:
-    just backend test
+    just backend verify
 
 run: install
     npm run tauri dev

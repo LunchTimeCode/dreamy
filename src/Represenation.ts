@@ -1,22 +1,7 @@
-interface OrgWrapper {
-  organisation: string;
-  repos: readonly Repo[];
-}
-
-interface Repo {
+interface FlatDep {
+  org: string;
   repo: string;
-  organisation: string;
-  packageData?: Map<string, DepGroup[]> | undefined;
-}
-
-interface DepGroup {
-  packageName: string | undefined;
-  deps: Dep[];
-}
-
-interface Dep {
-  repo: string | undefined;
-  packageName: string | undefined;
+  packageType: string;
   depName: string;
   currentValue: string;
 }
