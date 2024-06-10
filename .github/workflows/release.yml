@@ -2,7 +2,7 @@ name: Release
 on:
   push:
     tags:
-      - 'qwit-desktop-v*'
+      - '*'
   workflow_dispatch:
 
 jobs:

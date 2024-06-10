@@ -8,19 +8,19 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [build-dependencies]
-tauri-build = { version = "2.0.0-beta", features = [] }
+tauri-build = { version = "2.0.0-beta", default-features = false , features = [] }
 
 [dependencies]
-tauri = { version = "2.0.0-beta", features = [] }
-serde = { version = "1", features = ["derive"] }
+tauri = { version = "2.0.0-beta", default-features = false , features = [] }
+serde = { version = "1", default-features = false }
 serde_json = "1"
 serde_derive = "1.0.203"
 tauri-plugin-dialog = "2.0.0-beta.4"
-tauri-plugin-notification = "2.0.0-beta.3"
+tauri-plugin-notification = { version = "2.0.0-beta.3", features = ["zbus"], default-features = false }
 tauri-plugin-os = "2.0.0-beta.3"
 tauri-plugin-process = "2.0.0-beta.3"
 tauri-plugin-fs = "2.0.0-beta.4"
-tauri-plugin-http = "2.0.0-beta.4"
+tauri-plugin-http = { version = "2.0.0-beta.4", default-features = false }
 tauri-plugin-clipboard-manager = "2.1.0-beta.0"
 tauri-plugin-shell = "2.0.0-beta.3"
 

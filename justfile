@@ -48,6 +48,8 @@ backend *args:
 
 install-dev:
   npm add prettier
+  cargo install cargo-hack cargo-watch cargo-deny hurl cargo-machete
+  cargo install cargo-features-manager
 
 
 
@@ -55,3 +57,8 @@ release *args: verify
     test $GITHUB_TOKEN
     test $CARGO_REGISTRY_TOKEN
     cd src-tauri && cargo release {{args}}
+
+
+prune:
+    cargo machete
+    cargo features prune
