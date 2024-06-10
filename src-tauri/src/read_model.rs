@@ -2,7 +2,7 @@ use serde_derive::{Deserialize, Serialize};
 
 use crate::representation::Deps;
 
-#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize, Eq)]
 #[serde(rename_all = "camelCase")]
 pub struct FlatDep {
     pub org: String,
@@ -10,6 +10,12 @@ pub struct FlatDep {
     pub package_type: String,
     pub dep_name: String,
     pub current_value: Option<String>,
+}
+
+impl FlatDep {
+    pub fn searchable_key(&self) -> String {
+        self.dep_name.clone()
+    }
 }
 
 pub fn flatten(root_deps: Deps) -> Vec<FlatDep> {

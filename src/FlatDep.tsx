@@ -1,19 +1,29 @@
-import { Box, Card, CardHeader } from "@mui/material";
-import { DataGrid, GridColDef, GridToolbar } from "@mui/x-data-grid";
+import { Box, Card, CardHeader, TextField } from "@mui/material";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { FlatDep, flatDepKey } from "./Represenation.ts";
 
-function FlatDepComp(props: { flatDep: readonly FlatDep[] }) {
+function FlatDepComp(props: {
+  flatDep: readonly FlatDep[];
+  setSearchValue: (searchVal: string) => void;
+}) {
   return (
     <>
       <Card variant="elevation">
         <CardHeader title="Depenencies" />
+        <TextField
+          id="outlined-basic"
+          label="Search Dependency"
+          variant="outlined"
+          onChange={(v) => {
+            props.setSearchValue(v.target.value);
+          }}
+        />
         <Box sx={{ height: 700, width: "100%" }}>
           <DataGrid
             rows={props.flatDep}
             columns={columns}
             density="compact"
             disableRowSelectionOnClick
-            slots={{ toolbar: GridToolbar }}
             getRowId={(row) => flatDepKey(row)}
           />
         </Box>
@@ -55,9 +65,14 @@ const columns: GridColDef<FlatDep>[] = [
   },
 ];
 
-export function FlatDepCompOrNothing(props: { w: FlatDep[] | undefined }) {
+export function FlatDepCompOrNothing(props: {
+  w: FlatDep[] | undefined;
+  setSearchValue: (searchVal: string) => void;
+}) {
   if (props.w) {
-    return <FlatDepComp flatDep={props.w} />;
+    return (
+      <FlatDepComp flatDep={props.w} setSearchValue={props.setSearchValue} />
+    );
   } else {
     return <p>{props.w}</p>;
   }

@@ -8,6 +8,7 @@ import { Tab, Tabs } from "@mui/material";
 import { Box } from "@mui/material";
 import * as React from "react";
 import { FlatDep } from "./Represenation.ts";
+import { useDebounceCallback } from "usehooks-ts";
 
 function App() {
   const [value, setValue] = React.useState(0);
@@ -17,12 +18,15 @@ function App() {
   };
 
   const [sourcePath, setSourcePath] = useState("");
-
   const [flat, setFlat] = useState<FlatDep[]>();
+  const [searchString, setSearchString] = useState<string>("");
 
   async function fromRustFlat() {
     // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
-    const result = await invoke("load_flattend", { name: sourcePath });
+    const result = await invoke("load_flattend_filter", {
+      name: sourcePath,
+      filter: searchString,
+    });
     if (typeof result === "string") {
       const flat = asFlat(result);
       if (flat) {
@@ -33,6 +37,14 @@ function App() {
       }
     }
   }
+
+  function debouncedReloadAndSearch(value: string) {
+    fromRustFlat().then(() => {
+      setSearchString(value);
+    });
+  }
+
+  const debouncedSetSearch = useDebounceCallback(debouncedReloadAndSearch, 400);
 
   async function openDialog(): Promise<void> {
     const file = await open({
@@ -84,7 +96,10 @@ function App() {
             <Button onClick={openDialog}>Choose File</Button>
             <Button onClick={loadFlat}>Load flat Dependencies</Button>
             <div className="container">
-              <FlatDepCompOrNothing w={flat} />
+              <FlatDepCompOrNothing
+                w={flat}
+                setSearchValue={debouncedSetSearch}
+              />
             </div>
           </CustomTabPanel>
 

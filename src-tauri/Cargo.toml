@@ -23,7 +23,7 @@ tauri-plugin-fs = "2.0.0-beta.4"
 tauri-plugin-http = { version = "2.0.0-beta.4", default-features = false }
 tauri-plugin-clipboard-manager = "2.1.0-beta.0"
 tauri-plugin-shell = "2.0.0-beta.3"
-
+fuzzy-matcher = "0.3.1"
 
 [features]
 # This feature is used for production builds or when a dev server is not specified, DO NOT REMOVE!!

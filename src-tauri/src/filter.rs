@@ -1,29 +1,43 @@
-use serde_derive::{Deserialize, Serialize};
+use crate::loader::{load_flat, DepError};
 use crate::read_model::FlatDep;
+use fuzzy_matcher::skim::SkimMatcherV2;
 
-pub fn filter(name: &str, filter: &str){
-
+pub fn load_with_filter(
+    source_folder: &str,
+    search_string: &str,
+) -> Result<Vec<FlatDep>, DepError> {
+    let deps = load_flat(source_folder)?;
+    let matcher = SkimMatcherV2::default();
+    Ok(on_flat_dep(deps, search_string, matcher))
 }
 
-
-#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
-pub struct Filter{
-    pub org: String,
-    pub repo: String,
-    pub package_type: String,
-    pub current_value: String,
+struct OrderedFlatDep {
+    score: f64,
+    dep: FlatDep,
 }
 
+pub fn on_flat_dep(
+    vec: Vec<FlatDep>,
+    search_string: &str,
+    _matcher: SkimMatcherV2,
+) -> Vec<FlatDep> {
+    let scored: Vec<OrderedFlatDep> = vec
+        .iter()
+        .map(|dep| {
+            let res = dep.searchable_key().contains(search_string);
+            let score = match res {
+                false => 0.,
+                true => 1.0,
+            };
 
-impl Filter{
-    pub fn onFlatDep(vec: Vec<FlatDep>){
-        vec.iter().filter(|f| {
+            OrderedFlatDep {
+                score,
+                dep: dep.clone(),
+            }
+        })
+        .collect();
 
-        });
-    }
+    let highest = scored.iter().filter(|flat_dep| flat_dep.score == 1.);
 
-    pub fn compareToFlatDep()-> bool{
-
-    }
+    highest.map(|f| f.dep.clone()).collect()
 }
