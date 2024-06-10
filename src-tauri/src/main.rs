@@ -15,6 +15,14 @@ fn load_flattend(name: &str) -> String {
     }
 }
 
+#[tauri::command]
+fn load_flattend_filter(name: &str, _filter: &str) -> String {
+    match load_flat(name) {
+        Ok(res) => serde_json::to_string_pretty(&res).unwrap(),
+        Err(e) => format!("{:#?}", e),
+    }
+}
+
 pub fn main() {
     tauri::Builder::default()
         .plugin(tauri_plugin_shell::init())
@@ -27,7 +35,10 @@ pub fn main() {
         .plugin(tauri_plugin_notification::init())
         // Initialize the plugin
         .plugin(tauri_plugin_dialog::init())
-        .invoke_handler(tauri::generate_handler![load_flattend])
+        .invoke_handler(tauri::generate_handler![
+            load_flattend,
+            load_flattend_filter
+        ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
