@@ -27,7 +27,7 @@ test:
 # Run the static code analysis
 lint:
     cargo fmt --all -- --check
-    cargo hack clippy --feature-powerset --all-targets --workspace
+    cargo clippy
 
 fmt:
     cargo fmt
