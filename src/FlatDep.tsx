@@ -1,5 +1,6 @@
 import { Box, Card, CardHeader } from "@mui/material";
 import { DataGrid, GridColDef, GridToolbar } from "@mui/x-data-grid";
+import { FlatDep, flatDepKey } from "./Represenation.ts";
 
 function FlatDepComp(props: { flatDep: readonly FlatDep[] }) {
   return (
@@ -13,9 +14,7 @@ function FlatDepComp(props: { flatDep: readonly FlatDep[] }) {
             density="compact"
             disableRowSelectionOnClick
             slots={{ toolbar: GridToolbar }}
-            getRowId={(row) =>
-              row.repo + row.org + row.currentValue + row.depName
-            }
+            getRowId={(row) => flatDepKey(row)}
           />
         </Box>
       </Card>
