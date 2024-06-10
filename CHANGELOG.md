@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.0](https://github.com/LunchTimeCode/dreamy/compare/v1.0.0...v1.1.0) (2024-06-10)
+
+
+### Features
+
+* rename ([586dabf](https://github.com/LunchTimeCode/dreamy/commit/586dabff2aeefee4bff7adc740bcef48c7ed7663))
+
 ## 1.0.0 (2024-06-10)
 
 
