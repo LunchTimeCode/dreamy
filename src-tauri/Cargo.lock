@@ -928,6 +928,7 @@ name = "dreamy"
 version = "0.0.0"
 dependencies = [
  "fuzzy-matcher",
+ "log",
  "serde",
  "serde_derive",
  "serde_json",

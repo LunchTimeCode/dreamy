@@ -19,18 +19,17 @@ function App() {
 
   const [sourcePath, setSourcePath] = useState("");
   const [flat, setFlat] = useState<FlatDep[]>();
-  const [searchString, setSearchString] = useState<string>("");
+  const [searchStringState, setSearchStringState] = useState<string>("");
 
-  async function fromRustFlat() {
+  async function loadFromStore(searchString: string) {
+    console.log("trying to load with", searchString);
     // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
-    const result = await invoke("load_flattend_filter", {
-      name: sourcePath,
+    const result = await invoke("load_from_store", {
       filter: searchString,
     });
     if (typeof result === "string") {
       const flat = asFlat(result);
       if (flat) {
-        console.log("setting result: ", result);
         setFlat(flat);
       } else {
         console.log("no valid result: ", result);
@@ -38,13 +37,26 @@ function App() {
     }
   }
 
-  function debouncedReloadAndSearch(value: string) {
-    fromRustFlat().then(() => {
-      setSearchString(value);
-    });
+  async function loadIntoStore() {
+    // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
+    const result = await invoke("load_into_store", { name: sourcePath });
+    if (typeof result === "string") {
+      if (flat) {
+        console.log("setting result: ", result);
+      } else {
+        console.log("no valid result: ", result);
+      }
+    }
   }
 
-  const debouncedSetSearch = useDebounceCallback(debouncedReloadAndSearch, 400);
+  const debouncedSetSearch = useDebounceCallback(loadFromStore, 400);
+
+  function debouncedReloadAndSearch(value: string) {
+    setSearchStringState(value);
+    console.log("search value", value);
+
+    debouncedSetSearch(value)?.then();
+  }
 
   async function openDialog(): Promise<void> {
     const file = await open({
@@ -57,9 +69,10 @@ function App() {
     }
   }
 
-  async function loadFlat() {
-    console.log("loadingFlat");
-    await fromRustFlat();
+  async function loadDeps() {
+    loadIntoStore().then(() => {
+      loadFromStore("");
+    });
   }
 
   function asFlat(raw: string): FlatDep[] | undefined {
@@ -85,25 +98,25 @@ function App() {
               onChange={handleChange}
               aria-label="basic tabs example"
             >
-              <Tab label="All Flat" {...a11yProps(0)} />
-              <Tab label="Download in the app" {...a11yProps(1)} />
+              <Tab label="Analyse" {...a11yProps(0)} />
+              <Tab label="Load Dependencies" {...a11yProps(1)} />
             </Tabs>
           </Box>
 
           <div className="row"></div>
 
           <CustomTabPanel value={value} index={0}>
-            <Button onClick={openDialog}>Choose File</Button>
-            <Button onClick={loadFlat}>Load flat Dependencies</Button>
-            <div className="container">
-              <FlatDepCompOrNothing
-                w={flat}
-                setSearchValue={debouncedSetSearch}
-              />
-            </div>
+            <FlatDepCompOrNothing
+              w={flat}
+              value={searchStringState}
+              setSearchValue={debouncedReloadAndSearch}
+            />
           </CustomTabPanel>
 
-          <CustomTabPanel value={value} index={1}></CustomTabPanel>
+          <CustomTabPanel value={value} index={1}>
+            <Button onClick={openDialog}>Choose File</Button>
+            <Button onClick={loadDeps}>Load From File</Button>
+          </CustomTabPanel>
         </Box>
       </div>
     </>

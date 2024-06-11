@@ -1,14 +1,7 @@
-use crate::loader::{load_flat, DepError};
 use crate::read_model::FlatDep;
-use fuzzy_matcher::skim::SkimMatcherV2;
 
-pub fn load_with_filter(
-    source_folder: &str,
-    search_string: &str,
-) -> Result<Vec<FlatDep>, DepError> {
-    let deps = load_flat(source_folder)?;
-    let matcher = SkimMatcherV2::default();
-    Ok(on_flat_dep(deps, search_string, matcher))
+pub fn filter_deps(search_string: &str, deps: Vec<FlatDep>) -> Vec<FlatDep> {
+    on_flat_dep(deps, search_string)
 }
 
 struct OrderedFlatDep {
@@ -16,11 +9,7 @@ struct OrderedFlatDep {
     dep: FlatDep,
 }
 
-pub fn on_flat_dep(
-    vec: Vec<FlatDep>,
-    search_string: &str,
-    _matcher: SkimMatcherV2,
-) -> Vec<FlatDep> {
+pub fn on_flat_dep(vec: Vec<FlatDep>, search_string: &str) -> Vec<FlatDep> {
     let scored: Vec<OrderedFlatDep> = vec
         .iter()
         .map(|dep| {

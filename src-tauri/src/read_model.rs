@@ -2,7 +2,7 @@ use serde_derive::{Deserialize, Serialize};
 
 use crate::representation::Deps;
 
-#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize, Eq)]
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize, Eq, Hash)]
 #[serde(rename_all = "camelCase")]
 pub struct FlatDep {
     pub org: String,

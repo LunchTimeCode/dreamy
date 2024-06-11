@@ -4,6 +4,7 @@ import { FlatDep, flatDepKey } from "./Represenation.ts";
 
 function FlatDepComp(props: {
   flatDep: readonly FlatDep[];
+  value: string;
   setSearchValue: (searchVal: string) => void;
 }) {
   return (
@@ -14,6 +15,7 @@ function FlatDepComp(props: {
           id="outlined-basic"
           label="Search Dependency"
           variant="outlined"
+          value={props.value}
           onChange={(v) => {
             props.setSearchValue(v.target.value);
           }}
@@ -67,11 +69,16 @@ const columns: GridColDef<FlatDep>[] = [
 
 export function FlatDepCompOrNothing(props: {
   w: FlatDep[] | undefined;
+  value: string;
   setSearchValue: (searchVal: string) => void;
 }) {
   if (props.w) {
     return (
-      <FlatDepComp flatDep={props.w} setSearchValue={props.setSearchValue} />
+      <FlatDepComp
+        flatDep={props.w}
+        value={props.value}
+        setSearchValue={props.setSearchValue}
+      />
     );
   } else {
     return <p>{props.w}</p>;
