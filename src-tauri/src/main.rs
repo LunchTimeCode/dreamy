@@ -11,6 +11,7 @@ mod in_memory_store;
 mod loader;
 mod read_model;
 mod representation;
+mod github;
 
 #[tauri::command]
 fn load_from_store(filter: &str, store: State<in_memory_store::ModelStore>) -> String {
