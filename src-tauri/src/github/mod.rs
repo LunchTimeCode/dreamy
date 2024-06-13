@@ -1,21 +1,39 @@
-use octocrab::{Octocrab, OctocrabBuilder};
-use octocrab::models::orgs::Organization;
+use reqwest::{Client, Url};
+use serde_derive::{Deserialize, Serialize};
 
 struct Github{
-    crab: Octocrab 
+    client: Client
 }
 
+const REPO_URL: &str = "https://api.github.com/orgs/";
+const GITHUB_VERSION_HEADER: &str = "X-GitHub-Api-Version";
+const GITHUB_VERSION_VALUE: &str = "2022-11-28";
+
 impl Github{
-    fn authenticated(personal_token: &str) -> Result<Self, String>{
-        
-        let crab = OctocrabBuilder::new();
-        let secret_token :  secrecy::SecretString = personal_token.to_string().into();
-        let crab = crab.personal_token(secret_token).build().map_err(|f|f.to_string())?;
-        
-        Ok(Self{crab})
+    fn authenticated() -> Result<Self, String>{
+        let client = Client::new();
+        Ok(Self{
+            client
+        })
     }
-    
-    async fn org_handle(&self,org: &str)-> Result<Organization, String >{
-        self.crab.orgs(org).get().await.map_err(|f| f.to_string())
+
+    async fn get_repos(&self, org: &str, personal_token: &str)->  Result<Vec<GithubRepo>, String>{
+        let base: Url = REPO_URL.parse().unwrap();
+        let url = base.join(org);
+        let url = url.unwrap().join("/repos").unwrap();
+        self.client.get(url)
+            .bearer_auth(personal_token)
+            .header(GITHUB_VERSION_HEADER, GITHUB_VERSION_VALUE)
+            .send()
+            .await.map_err(|f| f.to_string())?
+            .json().await.map_err(|f|f.to_string())?
     }
+
+}
+
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+struct GithubRepo{
+    id: String,
+    name: String,
 }
