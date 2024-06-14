@@ -1,16 +1,10 @@
-
-use reqwest::Url;
+use std::env;
+use reqwest::header;
 use serde_derive::{Deserialize, Serialize};
 
 pub struct Github{
     client: reqwest::blocking::Client
 }
-
-const REPO_URL: &str = "https://api.github.com/orgs/";
-const GITHUB_VERSION_HEADER: &str = "X-GitHub-Api-Version";
-const GITHUB_VERSION_VALUE: &str = "2022-11-28";
-
-const REPOS_URL: &str = "https://api.github.com/repos";
 
 impl Github{
    pub fn new() -> Self{
@@ -22,42 +16,94 @@ impl Github{
     }
 
     pub fn get_repos(&self, org: &str, personal_token: &str) ->  Result<Vec<GithubRepo>, String>{
-        let base: Url = REPO_URL.parse().unwrap();
-        let url = base.join(org);
-        let url = url.unwrap().join("/repos").unwrap();
+        let token = if personal_token.is_empty() {
+            env::var("GITHUB_TOKEN")
+        }else { 
+          Ok(personal_token.to_string())
+        };
+        
+        let Ok(token)= token else{
+            return Err("no github token set".to_string())
+        };
+
+        let mut headers = header::HeaderMap::new();
+        headers.insert("Accept", "application/vnd.github+json".parse().unwrap());
+        headers.insert("X-GitHub-Api-Version", "2022-11-28".parse().unwrap());
+        headers.insert("User-Agent", "Dreamy-App".parse().unwrap());
+
+        let bearer = format!("Bearer {}",token);
+        headers.insert("Authorization", bearer.parse().unwrap());
+        
+        let url = format!("https://api.github.com/orgs/{}/repos", org);
+        
         println!("{:?}", url.to_string());
         let res = self.client.get(url)
-            .bearer_auth(personal_token)
-            .header(GITHUB_VERSION_HEADER, GITHUB_VERSION_VALUE)
+            .headers(headers)
             .send()
             .map_err(|f| f.to_string());
         println!("{:?}", res);
-            let json = res?.json().map_err(|f|f.to_string())?;
-        json
+            let json: Vec<GithubRepo> = res?.json().map_err(|f|f.to_string())?;
+        
+        Ok(json)
     }
 
 
     pub fn get_graph(&self, org: &str, repo: &str, personal_token: &str) ->  Result<Vec<GitHubDep>, String>{
-        let base: Url = REPOS_URL.parse().unwrap();
-        let url = base.join(org).unwrap();
-        let url = url.join(repo).unwrap();
-        let url = url.join("/dependency-graph/compare/main").unwrap();
+
+        let token = if personal_token.is_empty() {
+            env::var("GITHUB_TOKEN")
+        }else {
+            Ok(personal_token.to_string())
+        };
+
+        let Ok(token)= token else{
+            return Err("no github token set".to_string())
+        };
+
+        let mut headers = header::HeaderMap::new();
+        headers.insert("Accept", "application/vnd.github+json".parse().unwrap());
+        headers.insert("X-GitHub-Api-Version", "2022-11-28".parse().unwrap());
+        headers.insert("User-Agent", "Dreamy-App".parse().unwrap());
+
+        let bearer = format!("Bearer {}",token);
+        headers.insert("Authorization", bearer.parse().unwrap());
+
+        let url = format!("https://api.github.com/repos/{}/{}/dependency-graph/sbom", org, repo);
+
+        println!("getting sbom for {:?}", repo);
+        
         let res = self.client.get(url)
-            .bearer_auth(personal_token)
-            .header(GITHUB_VERSION_HEADER, GITHUB_VERSION_VALUE)
+            .headers(headers)
             .send()
-            .map_err(|f| f.to_string())?
-            .json().map_err(|f|f.to_string())?;
-        println!("{:?}", res);
-        res
+            .map_err(|f| f.to_string());
+        
+        let res  = match res {  
+            Ok(r) => r,
+            Err(err) => {
+                eprintln!("could not get response {err}");
+                return Err(err)
+            }
+        };
+
+        let bom  = match res.json::<RepoBom>() {
+            Ok(r) => r,
+            Err(err) => {
+                eprintln!("could not parse {err}");
+                return Err(err.to_string())
+            }
+        };
+        
+        let deps = bom.to_github_deps(repo);
+        println!("{:?}", deps);
+        Ok(deps)
     }
 
 }
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub struct GithubRepo{
-   pub id: String, 
+pub struct GithubRepo{ 
+   pub id: i64,
    pub name: String,
 }
 
@@ -65,24 +111,52 @@ pub struct GithubRepo{
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct GitHubDep{
-    pub repo: Option<String>,
-    pub change_type: String,
-    pub manifest: String,
-    pub ecosystem: String,
+    pub repo: String,
     pub name: String,
     pub version: String,
-    pub package_url: String,
     pub license: String,
-    pub source_repository_url: String,
-    pub vulnerabilities: Vec<Vuln>
 }
 
 
+
+
+
+#[derive(Serialize, Deserialize)]
+pub struct RepoBom {
+    #[serde(rename = "sbom")]
+    sbom: Sbom,
+}
+
+impl RepoBom{
+    fn to_github_deps(&self, repo: &str) ->Vec<GitHubDep>{
+        let mut deps: Vec<GitHubDep> =vec![];
+        
+        for package in self.sbom.packages.clone(){
+           let dep = GitHubDep{
+                repo: repo.to_string(),
+                name: package.name.to_string(),
+                version: package.version_info.to_string(),
+                license: package.license_declared.to_string(),
+            };
+           deps.push(dep)
+        }
+        
+        deps
+    }
+}
+
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub struct Vuln{
-    pub severity: String,
-    pub advisory_ghsa_id: String,
-    pub advisory_summary: String,
-    pub advisory_url: String
+pub struct Sbom {
+    name: String,
+    packages: Vec<Package>,
+}
+
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct Package {
+    name: String,
+    version_info: String,
+    license_concluded: String,
+    license_declared: String,
 }
