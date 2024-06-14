@@ -38,23 +38,24 @@ fn load_into_store(name: &str, store: State<in_memory_store::ModelStore>) {
 }
 
 #[tauri::command]
-fn load_from_github(
-    org: &str,
-    token: &str,
-    github_remote: State<github::remote::Github>,
-    store: State<in_memory_store::ModelStore>,
-) {
+async fn load_from_github(
+    org: String,
+    token: String,
+    github_remote: State<'_, github::remote::Github>,
+    store: State<'_, in_memory_store::ModelStore>,
+) -> Result<(), ()> {
     println!("trying to get deps from: {:#?}", org);
-    let res = github::get_deps_from_github(org, token, github_remote.inner());
+    let res = github::get_deps_from_github(&org, &token, github_remote.inner()).await;
     let deps = match res {
         Ok(res) => res,
         Err(e) => {
             eprintln!("{e}");
-            return;
+            return Ok(());
         }
     };
-    let as_flat: Vec<FlatDep> = deps.iter().map(|g| g.to_flat_dep(org)).collect();
+    let as_flat: Vec<FlatDep> = deps.iter().map(|g| g.to_flat_dep(&org)).collect();
     store.add(as_flat);
+    Ok(())
 }
 
 pub fn main() {

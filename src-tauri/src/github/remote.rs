@@ -4,17 +4,21 @@ use serde_derive::{Deserialize, Serialize};
 use std::env;
 
 pub struct Github {
-    client: reqwest::blocking::Client,
+    client: reqwest::Client,
 }
 
 impl Github {
     pub fn new() -> Self {
         println!("creating a client");
-        let client = reqwest::blocking::Client::new();
+        let client = reqwest::Client::new();
         Self { client }
     }
 
-    pub fn get_repos(&self, org: &str, personal_token: &str) -> Result<Vec<GithubRepo>, String> {
+    pub async fn get_repos(
+        &self,
+        org: &str,
+        personal_token: &str,
+    ) -> Result<Vec<GithubRepo>, String> {
         let token = if personal_token.is_empty() {
             env::var("GITHUB_TOKEN")
         } else {
@@ -35,19 +39,19 @@ impl Github {
 
         let url = format!("https://api.github.com/orgs/{}/repos", org);
 
-        println!("{:?}", url.to_string());
         let res = self
             .client
             .get(url)
             .headers(headers)
             .send()
+            .await
             .map_err(|f| f.to_string());
-        let json: Vec<GithubRepo> = res?.json().map_err(|f| f.to_string())?;
+        let json: Vec<GithubRepo> = res?.json().await.map_err(|f| f.to_string())?;
 
         Ok(json)
     }
 
-    pub fn get_graph(
+    pub async fn get_graph(
         &self,
         org: &str,
         repo: &str,
@@ -83,6 +87,7 @@ impl Github {
             .get(url)
             .headers(headers)
             .send()
+            .await
             .map_err(|f| f.to_string());
 
         let res = match res {
@@ -97,9 +102,7 @@ impl Github {
             return Ok(vec![]);
         }
 
-        let as_text = res.text().map_err(|e| e.to_string())?;
-        eprintln!("as text {:?}", as_text);
-
+        let as_text = res.text().await.map_err(|e| e.to_string())?;
         let bom = match serde_json::from_str::<RepoBom>(&as_text) {
             Ok(r) => r,
             Err(err) => {
