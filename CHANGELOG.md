@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.2.0](https://github.com/LunchTimeCode/dreamy/compare/v1.1.1...v1.2.0) (2024-06-14)
+
+
+### Features
+
+* intermediate ([cae6f79](https://github.com/LunchTimeCode/dreamy/commit/cae6f7949a2572f3f99de870ee6ccfa139d8a5dc))
+* load from github feature ([#6](https://github.com/LunchTimeCode/dreamy/issues/6)) ([889f369](https://github.com/LunchTimeCode/dreamy/commit/889f3693d89db6f07ae785d5191964112b35bcef))
+* smoother exp ([81f1cfd](https://github.com/LunchTimeCode/dreamy/commit/81f1cfd96dccecfcf41869a845826d0475a25f37))
+
+
+### Bug Fixes
+
+* debounce and load once ([89ed2cd](https://github.com/LunchTimeCode/dreamy/commit/89ed2cd3cc6735a82a9627c30efb0ed3b7870e46))
+
 ## [1.1.1](https://github.com/LunchTimeCode/dreamy/compare/v1.1.0...v1.1.1) (2024-06-10)
 
 
