@@ -25,6 +25,8 @@ tauri-plugin-clipboard-manager = "2.1.0-beta.0"
 tauri-plugin-shell = "2.0.0-beta.3"
 fuzzy-matcher = "0.3.1"
 log = "0.4.21"
+secrecy = "0.8.0"
+reqwest = { version = "0.12.4", features = ["blocking"] }
 
 [features]
 # This feature is used for production builds or when a dev server is not specified, DO NOT REMOVE!!

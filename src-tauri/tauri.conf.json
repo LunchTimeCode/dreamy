@@ -19,7 +19,8 @@
   "productName": "dreamy",
   "version": "0.0.0",
   "identifier": "com.dreamy",
-  "plugins": {},
+  "plugins": {
+  },
   "app": {
     "security": {
       "csp": null

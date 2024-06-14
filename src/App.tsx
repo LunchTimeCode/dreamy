@@ -4,7 +4,7 @@ import { open } from "@tauri-apps/plugin-dialog";
 import Button from "@mui/material/Button";
 import "./App.css";
 import { FlatDepCompOrNothing } from "./FlatDep.tsx";
-import { Tab, Tabs } from "@mui/material";
+import { Container, Divider, Stack, Tab, Tabs, TextField } from "@mui/material";
 import { Box } from "@mui/material";
 import * as React from "react";
 import { FlatDep } from "./Represenation.ts";
@@ -20,6 +20,9 @@ function App() {
   const [sourcePath, setSourcePath] = useState("");
   const [flat, setFlat] = useState<FlatDep[]>();
   const [searchStringState, setSearchStringState] = useState<string>("");
+
+  const [token, setToken] = useState<string>("");
+  const [org, setOrg] = useState<string>("");
 
   async function loadFromStore(searchString: string) {
     console.log("trying to load with", searchString);
@@ -40,6 +43,18 @@ function App() {
   async function loadIntoStore() {
     // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
     const result = await invoke("load_into_store", { name: sourcePath });
+    if (typeof result === "string") {
+      if (flat) {
+        console.log("setting result: ", result);
+      } else {
+        console.log("no valid result: ", result);
+      }
+    }
+  }
+
+  async function loadFromGithub() {
+    // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
+    const result = await invoke("load_from_github", { org: org, token: token });
     if (typeof result === "string") {
       if (flat) {
         console.log("setting result: ", result);
@@ -75,6 +90,13 @@ function App() {
     });
   }
 
+  async function loadDepsFromGithub() {
+    console.log("trying to call github");
+    loadFromGithub().then(() => {
+      console.log("tried to call github");
+    });
+  }
+
   function asFlat(raw: string): FlatDep[] | undefined {
     if (raw.length == 0) {
       return undefined;
@@ -106,6 +128,7 @@ function App() {
           <div className="row"></div>
 
           <CustomTabPanel value={value} index={0}>
+            <Button onClick={loadDeps}>Load from Store</Button>
             <FlatDepCompOrNothing
               w={flat}
               value={searchStringState}
@@ -114,8 +137,41 @@ function App() {
           </CustomTabPanel>
 
           <CustomTabPanel value={value} index={1}>
-            <Button onClick={openDialog}>Choose File</Button>
-            <Button onClick={loadDeps}>Load From File</Button>
+            <Stack
+              direction="row"
+              divider={<Divider orientation="vertical" flexItem />}
+              spacing={2}
+            >
+              <Button onClick={openDialog}>Import File</Button>
+              <Container>
+                <Stack
+                  divider={<Divider orientation="vertical" flexItem />}
+                  spacing={1}
+                >
+                  <Button onClick={loadDepsFromGithub}>
+                    Import From Github
+                  </Button>
+                  <TextField
+                    id="outlined-basic1"
+                    label="Org"
+                    variant="outlined"
+                    value={org}
+                    onChange={(v) => {
+                      setOrg(v.target.value);
+                    }}
+                  />
+                  <TextField
+                    id="outlined-basic2"
+                    label="token"
+                    variant="outlined"
+                    value={token}
+                    onChange={(v) => {
+                      setToken(v.target.value);
+                    }}
+                  />
+                </Stack>
+              </Container>
+            </Stack>
           </CustomTabPanel>
         </Box>
       </div>
