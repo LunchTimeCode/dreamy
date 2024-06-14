@@ -4,13 +4,11 @@ import { open } from "@tauri-apps/plugin-dialog";
 import Button from "@mui/material/Button";
 import "./App.css";
 import { FlatDepCompOrNothing } from "./FlatDep.tsx";
-import {Tab, Tabs, TextField} from "@mui/material";
+import { Tab, Tabs, TextField } from "@mui/material";
 import { Box } from "@mui/material";
 import * as React from "react";
 import { FlatDep } from "./Represenation.ts";
 import { useDebounceCallback } from "usehooks-ts";
-
-
 
 function App() {
   const [value, setValue] = React.useState(0);
@@ -93,9 +91,9 @@ function App() {
   }
 
   async function loadDepsFromGithub() {
-    console.log("trying to call github")
+    console.log("trying to call github");
     loadFromGithub().then(() => {
-      console.log("tried to call github")
+      console.log("tried to call github");
     });
   }
 
@@ -141,22 +139,22 @@ function App() {
             <Button onClick={openDialog}>Choose File</Button>
             <Button onClick={loadDeps}>Load From File</Button>
             <TextField
-                id="outlined-basic1"
-                label="Org"
-                variant="outlined"
-                value={org}
-                onChange={(v) => {
-                  setOrg(v.target.value);
-                }}
+              id="outlined-basic1"
+              label="Org"
+              variant="outlined"
+              value={org}
+              onChange={(v) => {
+                setOrg(v.target.value);
+              }}
             />
             <TextField
-                id="outlined-basic2"
-                label="token"
-                variant="outlined"
-                value={token}
-                onChange={(v) => {
-                  setToken(v.target.value);
-                }}
+              id="outlined-basic2"
+              label="token"
+              variant="outlined"
+              value={token}
+              onChange={(v) => {
+                setToken(v.target.value);
+              }}
             />
             <Button onClick={loadDepsFromGithub}>Load From Github</Button>
           </CustomTabPanel>
