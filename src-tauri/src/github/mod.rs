@@ -13,7 +13,7 @@ pub async fn get_deps_from_github(
     println!("repos: {:?}", result);
     for repo in result {
         let graph = github.get_graph(org, &repo.name, token).await;
-   
+
         match graph {
             Ok(g) => deps.append(&mut g.clone()),
             Err(e) => println!("github error: {}", e),

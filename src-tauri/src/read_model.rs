@@ -1,6 +1,6 @@
 use serde_derive::{Deserialize, Serialize};
 
-use crate::representation::Deps;
+use crate::renovate_representation::Deps;
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize, Eq, Hash)]
 #[serde(rename_all = "camelCase")]
@@ -9,6 +9,7 @@ pub struct FlatDep {
     pub repo: String,
     pub package_type: String,
     pub dep_name: String,
+    pub license: String,
     pub current_value: Option<String>,
 }
 
@@ -37,6 +38,7 @@ pub fn flatten(root_deps: Deps) -> Vec<FlatDep> {
                             repo: repo_name.clone(),
                             package_type: current_package_type.clone(),
                             dep_name: dep.dep_name,
+                            license: "unknown".to_string(),
                             current_value: dep.current_value,
                         };
                         deps.push(flat)
@@ -52,7 +54,7 @@ pub fn flatten(root_deps: Deps) -> Vec<FlatDep> {
 #[cfg(test)]
 mod test {
     use crate::read_model::flatten;
-    use crate::representation::{Dep, DepGroup, Deps, Repo};
+    use crate::renovate_representation::{Dep, DepGroup, Deps, Repo};
     use std::collections::HashMap;
 
     #[test]

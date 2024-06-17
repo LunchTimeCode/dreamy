@@ -81,13 +81,12 @@ function App() {
     if (file) {
       console.log(file);
       setSourcePath(file);
+      await loadIntoStore();
     }
   }
 
   async function loadDeps() {
-    loadIntoStore().then(() => {
-      loadFromStore("");
-    });
+    await loadFromStore("");
   }
 
   async function loadDepsFromGithub() {

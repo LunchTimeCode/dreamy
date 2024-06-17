@@ -1,12 +1,12 @@
 use crate::read_model::{flatten, FlatDep};
-use crate::representation::{Deps, Repo};
+use crate::renovate_representation::{Deps, Repo};
 use serde_json::Error;
 use std::fs;
 use std::fs::File;
 use std::io::Read;
 use std::path::PathBuf;
 
-pub fn load_flat(source_folder: &str) -> Result<Vec<FlatDep>, DepError> {
+pub fn load_flat_from_file(source_folder: &str) -> Result<Vec<FlatDep>, DepError> {
     let mut organisation: Option<String> = None;
     let mut repos: Vec<Repo> = vec![];
     for entry in fs::read_dir(source_folder)? {

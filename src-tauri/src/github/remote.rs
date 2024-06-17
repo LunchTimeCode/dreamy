@@ -41,7 +41,8 @@ impl Github {
 
         let res = self
             .client
-            .get(url).query(&[("per_page", "100"), ("page", "100")])
+            .get(url)
+            .query(&[("per_page", "100"), ("page", "100")])
             .headers(headers)
             .send()
             .await
@@ -140,6 +141,7 @@ impl GitHubDep {
             repo: self.repo.to_string(),
             package_type: self._type.to_string(),
             dep_name: self.name.to_string(),
+            license: self.license.to_string(),
             current_value: Some(self.version.clone()),
         }
     }
@@ -157,18 +159,21 @@ impl RepoBom {
 
         for package in self.sbom.packages.clone() {
             let name = package.clone().name;
-            
+
             let license = match package.clone().license_declared {
                 None => package
-                    .license_concluded.clone()
+                    .license_concluded
+                    .clone()
                     .unwrap_or_else(|| "none".to_string()),
                 Some(l) => l,
             };
 
-            let package_name = name.split_once(":").unwrap_or_else( ||(&*package.name, &*package.name));
+            let package_name = name
+                .split_once(':')
+                .unwrap_or_else(|| (&*package.name, &*package.name));
             let _type = package_name.0;
             let dep_name = package_name.1;
-            
+
             let dep = GitHubDep {
                 repo: repo.to_string(),
                 _type: _type.to_string(),
