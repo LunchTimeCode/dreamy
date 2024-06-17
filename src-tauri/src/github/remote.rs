@@ -41,7 +41,7 @@ impl Github {
 
         let res = self
             .client
-            .get(url)
+            .get(url).query(&[("per_page", "100"), ("page", "100")])
             .headers(headers)
             .send()
             .await
@@ -128,6 +128,7 @@ pub struct GithubRepo {
 pub struct GitHubDep {
     pub repo: String,
     pub name: String,
+    pub _type: String,
     pub version: String,
     pub license: String,
 }
@@ -137,7 +138,7 @@ impl GitHubDep {
         FlatDep {
             org: org.to_string(),
             repo: self.repo.to_string(),
-            package_type: "unknown".to_string(),
+            package_type: self._type.to_string(),
             dep_name: self.name.to_string(),
             current_value: Some(self.version.clone()),
         }
@@ -155,16 +156,23 @@ impl RepoBom {
         let mut deps: Vec<GitHubDep> = vec![];
 
         for package in self.sbom.packages.clone() {
-            let license = match package.license_declared {
+            let name = package.clone().name;
+            
+            let license = match package.clone().license_declared {
                 None => package
-                    .license_concluded
+                    .license_concluded.clone()
                     .unwrap_or_else(|| "none".to_string()),
                 Some(l) => l,
             };
 
+            let package_name = name.split_once(":").unwrap_or_else( ||(&*package.name, &*package.name));
+            let _type = package_name.0;
+            let dep_name = package_name.1;
+            
             let dep = GitHubDep {
                 repo: repo.to_string(),
-                name: package.name.to_string(),
+                _type: _type.to_string(),
+                name: dep_name.to_string(),
                 version: package.version_info.to_string(),
                 license,
             };
