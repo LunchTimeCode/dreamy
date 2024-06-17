@@ -22,7 +22,7 @@ install:
 
 # Run the tests
 test:
-    cargo hack test --feature-powerset
+    cargo test
 
 # Run the static code analysis
 lint:

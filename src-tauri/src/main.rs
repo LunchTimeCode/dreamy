@@ -71,7 +71,6 @@ pub fn main() {
         .plugin(tauri_plugin_fs::init())
         .plugin(tauri_plugin_process::init())
         .plugin(tauri_plugin_os::init())
-        .plugin(tauri_plugin_notification::init())
         // Initialize the plugin
         .plugin(tauri_plugin_dialog::init())
         .invoke_handler(tauri::generate_handler![

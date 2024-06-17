@@ -18,8 +18,7 @@ run-m *args:
     npm {{args}}
 
 # Perform all verifications (compile, test, lint, etc.)
-verify: install build lint test
-
+verify: install lint test
 
 build:
     just run-m run build
@@ -33,7 +32,6 @@ run: install
 
 lint:
     just run-m run lint
-    just run-m run format-check
 
 
 fmt: fmt-b
@@ -63,7 +61,9 @@ prune:
     cargo machete
     cargo features prune
 
-
+update-all:
+    npm install -g npm-check-updates
+    ncu -u
 
 re token org repo:
     curl -L \

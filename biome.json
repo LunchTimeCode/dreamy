@@ -1,0 +1,8 @@
+{
+	"$schema": "https://biomejs.dev/schemas/1.8.1/schema.json",
+	"organizeImports": { "enabled": true },
+	"files": {
+		"ignore": ["src-tauri/*", "assets/*", ".github"]
+	},
+	"linter": { "enabled": true, "rules": { "recommended": true } }
+}
