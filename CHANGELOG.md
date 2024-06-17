@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.2](https://github.com/LunchTimeCode/dreamy/compare/v1.2.1...v1.2.2) (2024-06-17)
+
+
+### Bug Fixes
+
+* use biome and remove deps ([775a24b](https://github.com/LunchTimeCode/dreamy/commit/775a24b4dc85ea5f5ee16a0319787e31ce18a134))
+
 ## [1.2.1](https://github.com/LunchTimeCode/dreamy/compare/v1.2.0...v1.2.1) (2024-06-17)
 
 
