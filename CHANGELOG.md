@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.2.1](https://github.com/LunchTimeCode/dreamy/compare/v1.2.0...v1.2.1) (2024-06-17)
+
+
+### Bug Fixes
+
+* missing license ([cf0326a](https://github.com/LunchTimeCode/dreamy/commit/cf0326ab021bbeaf3eae6679f0f734cc9a1b6ff0))
+* repo pages ([9385a93](https://github.com/LunchTimeCode/dreamy/commit/9385a936f0c03ef3b18cb962b7817adf854f46dd))
+
 ## [1.2.0](https://github.com/LunchTimeCode/dreamy/compare/v1.1.1...v1.2.0) (2024-06-14)
 
 
