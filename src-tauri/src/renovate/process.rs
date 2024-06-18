@@ -15,14 +15,15 @@ pub fn flatten(root_deps: renovate_representation::Deps) -> Vec<FlatDep> {
 
                 for group in groups.iter() {
                     for dep in group.deps.clone() {
-                        let flat = FlatDep {
-                            org: org.clone(),
-                            repo: repo_name.clone(),
-                            package_type: current_package_type.clone(),
-                            dep_name: dep.dep_name,
-                            license: "unknown".to_string(),
-                            current_value: dep.current_value,
-                        };
+                        let flat = FlatDep::new(
+                            org.clone(),
+                            repo_name.clone(),
+                            current_package_type.clone(),
+                            dep.dep_name,
+                            "unknown".to_string(),
+                            dep.current_value,
+                        );
+
                         deps.push(flat)
                     }
                 }

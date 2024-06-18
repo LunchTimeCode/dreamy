@@ -136,14 +136,14 @@ pub struct GitHubDep {
 
 impl GitHubDep {
     pub fn to_flat_dep(&self, org: &str) -> FlatDep {
-        FlatDep {
-            org: org.to_string(),
-            repo: self.repo.to_string(),
-            package_type: self._type.to_string(),
-            dep_name: self.name.to_string(),
-            license: self.license.to_string(),
-            current_value: Some(self.version.clone()),
-        }
+        FlatDep::new(
+            org.to_string(),
+            self.repo.to_string(),
+            self._type.to_string(),
+            self.name.to_string(),
+            self.license.to_string(),
+            Some(self.version.clone()),
+        )
     }
 }
 

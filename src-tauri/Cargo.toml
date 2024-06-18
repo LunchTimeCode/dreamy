@@ -26,6 +26,15 @@ reqwest = { version = "0.12.4", features = ["blocking"] }
 anyhow = "1.0.86"
 thiserror = "1.0.61"
 
+[dependencies.uuid]
+version = "1.8.0"
+features = [
+    "v4",                
+    "fast-rng",         
+    "macro-diagnostics",
+    "serde"
+]
+
 [features]
 # This feature is used for production builds or when a dev server is not specified, DO NOT REMOVE!!
 custom-protocol = ["tauri/custom-protocol"]

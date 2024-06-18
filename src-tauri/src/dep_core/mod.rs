@@ -1,8 +1,10 @@
 use serde_derive::{Deserialize, Serialize};
+use uuid::Uuid;
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize, Eq, Hash)]
 #[serde(rename_all = "camelCase")]
 pub struct FlatDep {
+    pub uuid: Uuid,
     pub org: String,
     pub repo: String,
     pub package_type: String,
@@ -14,6 +16,25 @@ pub struct FlatDep {
 impl FlatDep {
     pub fn searchable_key(&self) -> String {
         self.dep_name.clone()
+    }
+
+    pub fn new(
+        org: String,
+        repo: String,
+        package_type: String,
+        dep_name: String,
+        license: String,
+        current_value: Option<String>,
+    ) -> Self {
+        Self {
+            uuid: random_id(),
+            org,
+            repo,
+            package_type,
+            dep_name,
+            license,
+            current_value,
+        }
     }
 }
 
@@ -65,4 +86,8 @@ impl From<std::string::String> for DepError {
     fn from(value: std::string::String) -> Self {
         Self::InvalidGeneric(value.to_string())
     }
+}
+
+pub fn random_id() -> Uuid {
+    Uuid::new_v4()
 }
