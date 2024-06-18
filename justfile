@@ -13,12 +13,14 @@ set dotenv-load
 install:
     bun install
     bun install --frozen-lockfile
+    npm install
+    npm ci
 
 run-m *args:
     bun {{args}}
 
 # Perform all verifications (compile, test, lint, etc.)
-verify: install lint test
+verify: lint test
 
 build:
     just run-m run build
@@ -26,7 +28,7 @@ build:
 test:
     just backend verify
 
-run: install
+run:
     bun run tauri dev
 
 
