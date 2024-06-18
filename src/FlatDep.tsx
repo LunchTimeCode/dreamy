@@ -36,6 +36,12 @@ function FlatDepComp(props: {
 
 const columns: GridColDef<FlatDep>[] = [
 	{
+		field: "uuid",
+		headerName: "Id",
+		width: 100,
+		editable: false,
+	},
+	{
 		field: "org",
 		headerName: "Organization",
 		width: 200,

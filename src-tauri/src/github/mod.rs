@@ -10,7 +10,6 @@ pub async fn get_deps_from_github(
     println!("getting repos for : {:?}", org);
     let result = github.get_repos(org, token).await?;
     let mut deps: Vec<GitHubDep> = vec![];
-    println!("repos: {:?}", result);
     for repo in result {
         let graph = github.get_graph(org, &repo.name, token).await;
 

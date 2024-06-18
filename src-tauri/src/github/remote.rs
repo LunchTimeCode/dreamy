@@ -30,7 +30,7 @@ impl Github {
         };
 
         let mut headers = header::HeaderMap::new();
-        headers.insert("Accept", "application/vnd.github+json".parse().unwrap());
+        headers.insert("Accept", "application/json".parse().unwrap());
         headers.insert("X-GitHub-Api-Version", "2022-11-28".parse().unwrap());
         headers.insert("User-Agent", "Dreamy-App".parse().unwrap());
 
@@ -42,12 +42,15 @@ impl Github {
         let res = self
             .client
             .get(url)
-            .query(&[("per_page", "100"), ("page", "100")])
+            .query(&[("per_page", "100"), ("page", "1")])
             .headers(headers)
             .send()
             .await
             .map_err(|f| f.to_string());
-        let json: Vec<GithubRepo> = res?.json().await.map_err(|f| f.to_string())?;
+
+        let as_text = res?.text().await.map_err(|f| f.to_string())?;
+
+        let json: Vec<GithubRepo> = serde_json::from_str(&as_text).map_err(|f| f.to_string())?;
 
         Ok(json)
     }

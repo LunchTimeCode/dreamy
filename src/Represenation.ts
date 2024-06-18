@@ -1,4 +1,5 @@
 export interface FlatDep {
+	uuid: string;
 	org: string;
 	repo: string;
 	packageType: string;
@@ -7,12 +8,5 @@ export interface FlatDep {
 }
 
 export function flatDepKey(fd: FlatDep) {
-	return (
-		fd.org +
-		fd.currentValue +
-		fd.depName +
-		fd.repo +
-		fd.packageType +
-		Math.random()
-	);
+	return fd.uuid;
 }
