@@ -16,10 +16,17 @@ jobs:
         uses: actions/setup-node@v4
         with:
          node-version: 'lts/*'
-         cache: 'npm' # Set this to npm, yarn or pnpm. 
+         cache: 'npm'
+         
       - uses: oven-sh/setup-bun@v1
         with:
-         bun-version: latest       
+         bun-version: latest
+         
+      - name: Setup Biome
+        uses: biomejs/setup-biome@v2
+        with:
+          version: latest
+          
       - name: Install dependencies ubuntu only
          # You can remove libayatana-appindicator3-dev if you don't use the system tray feature.
         run: |
