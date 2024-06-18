@@ -45,6 +45,7 @@ jobs:
         # You can remove libayatana-appindicator3-dev if you don't use the system tray feature.
         run: |
               rm -f package-lock.json
+              rm -f bun.lockb
               rm -rf node_modules/
         
 

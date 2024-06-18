@@ -1,4 +1,4 @@
-use crate::read_model::FlatDep;
+use crate::dep_core::FlatDep;
 use std::collections::HashSet;
 use std::sync::Mutex;
 

@@ -1,6 +1,6 @@
 
 install-graph:
-    npm i -g @jamietanna/renovate-graph
+    bun i -g @jamietanna/renovate-graph
 
 download_deps organization: install-graph
     renovate-graph --token $GITHUB_TOKEN --autodiscover --autodiscover-filter '{{organization}}/*'
@@ -11,11 +11,11 @@ set dotenv-load
     just --list --unsorted
 
 install:
-    npm install
-    npm ci
+    bun install
+    bun install --frozen-lockfile
 
 run-m *args:
-    npm {{args}}
+    bun {{args}}
 
 # Perform all verifications (compile, test, lint, etc.)
 verify: install lint test
@@ -27,7 +27,7 @@ test:
     just backend verify
 
 run: install
-    npm run tauri dev
+    bun run tauri dev
 
 
 lint:
@@ -35,7 +35,7 @@ lint:
 
 
 fmt: fmt-b
-    npm run format
+    bun run format
 
 fmt-b:
     just backend fmt
@@ -45,7 +45,6 @@ backend *args:
 
 
 install-dev:
-  npm add prettier
   cargo install cargo-hack cargo-watch cargo-deny hurl cargo-machete
   cargo install cargo-features-manager
 
@@ -62,7 +61,7 @@ prune:
     cargo features prune
 
 update-all:
-    npm install -g npm-check-updates
+    bun install -g npm-check-updates
     ncu -u
 
 re token org repo:

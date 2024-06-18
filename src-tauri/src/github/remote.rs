@@ -1,4 +1,4 @@
-use crate::read_model::FlatDep;
+use crate::dep_core::{DepError, FlatDep};
 use reqwest::header;
 use serde_derive::{Deserialize, Serialize};
 use std::env;
@@ -18,7 +18,7 @@ impl Github {
         &self,
         org: &str,
         personal_token: &str,
-    ) -> Result<Vec<GithubRepo>, String> {
+    ) -> Result<Vec<GithubRepo>, DepError> {
         let token = if personal_token.is_empty() {
             env::var("GITHUB_TOKEN")
         } else {
@@ -26,7 +26,7 @@ impl Github {
         };
 
         let Ok(token) = token else {
-            return Err("no github token set".to_string());
+            return Err(DepError::invalid_api_call("no github token set"));
         };
 
         let mut headers = header::HeaderMap::new();

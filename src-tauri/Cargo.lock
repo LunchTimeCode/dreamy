@@ -903,6 +903,7 @@ dependencies = [
 name = "dreamy"
 version = "0.0.0"
 dependencies = [
+ "anyhow",
  "log",
  "reqwest",
  "serde",
@@ -918,6 +919,7 @@ dependencies = [
  "tauri-plugin-os",
  "tauri-plugin-process",
  "tauri-plugin-shell",
+ "thiserror",
 ]
 
 [[package]]

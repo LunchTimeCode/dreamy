@@ -23,6 +23,8 @@ tauri-plugin-clipboard-manager = "2.1.0-beta.0"
 tauri-plugin-shell = "2.0.0-beta.3"
 log = "0.4.21"
 reqwest = { version = "0.12.4", features = ["blocking"] }
+anyhow = "1.0.86"
+thiserror = "1.0.61"
 
 [features]
 # This feature is used for production builds or when a dev server is not specified, DO NOT REMOVE!!

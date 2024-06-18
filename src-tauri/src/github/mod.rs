@@ -1,4 +1,4 @@
-use crate::github::remote::GitHubDep;
+use crate::{dep_core::DepError, github::remote::GitHubDep};
 
 pub mod remote;
 
@@ -6,7 +6,7 @@ pub async fn get_deps_from_github(
     org: &str,
     token: &str,
     github: &remote::Github,
-) -> Result<Vec<GitHubDep>, String> {
+) -> Result<Vec<GitHubDep>, DepError> {
     println!("getting repos for : {:?}", org);
     let result = github.get_repos(org, token).await?;
     let mut deps: Vec<GitHubDep> = vec![];

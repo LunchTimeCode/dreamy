@@ -1,25 +1,7 @@
-use serde_derive::{Deserialize, Serialize};
+use super::renovate_representation;
+use crate::dep_core::FlatDep;
 
-use crate::renovate_representation::Deps;
-
-#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize, Eq, Hash)]
-#[serde(rename_all = "camelCase")]
-pub struct FlatDep {
-    pub org: String,
-    pub repo: String,
-    pub package_type: String,
-    pub dep_name: String,
-    pub license: String,
-    pub current_value: Option<String>,
-}
-
-impl FlatDep {
-    pub fn searchable_key(&self) -> String {
-        self.dep_name.clone()
-    }
-}
-
-pub fn flatten(root_deps: Deps) -> Vec<FlatDep> {
+pub fn flatten(root_deps: renovate_representation::Deps) -> Vec<FlatDep> {
     let org = root_deps.organisation;
 
     let mut deps: Vec<FlatDep> = vec![];
@@ -53,8 +35,8 @@ pub fn flatten(root_deps: Deps) -> Vec<FlatDep> {
 
 #[cfg(test)]
 mod test {
-    use crate::read_model::flatten;
-    use crate::renovate_representation::{Dep, DepGroup, Deps, Repo};
+    use super::renovate_representation::*;
+    use super::*;
     use std::collections::HashMap;
 
     #[test]

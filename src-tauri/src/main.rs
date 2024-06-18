@@ -1,24 +1,21 @@
 // Prevents additional console window on Windows in release, DO NOT REMOVE!!
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
-use crate::filter::filter_deps;
-use crate::loader::{load_flat_from_file, DepError};
-use crate::read_model::FlatDep;
+use crate::dep_core::DepError;
+use crate::dep_core::FlatDep;
 use tauri::State;
 
-mod filter;
+mod dep_core;
 mod github;
-mod in_memory_store;
-mod loader;
-mod read_model;
-mod renovate_representation;
+mod renovate;
+mod store;
 
 #[tauri::command]
-fn load_from_store(filter: &str, store: State<in_memory_store::ModelStore>) -> String {
+fn load_from_store(filter: &str, store: State<store::in_memory_store::ModelStore>) -> String {
     let res: Result<Vec<FlatDep>, DepError> = if filter.is_empty() {
         Ok(store.all())
     } else {
-        Ok(filter_deps(filter, store.all()))
+        Ok(store::filter::filter_deps(filter, store.all()))
     };
 
     match res {
@@ -28,9 +25,9 @@ fn load_from_store(filter: &str, store: State<in_memory_store::ModelStore>) -> S
 }
 
 #[tauri::command]
-fn load_into_store(name: &str, store: State<in_memory_store::ModelStore>) {
+fn load_into_store(name: &str, store: State<store::in_memory_store::ModelStore>) {
     println!("trying to get deps from file: {:#?}", name);
-    let res = load_flat_from_file(name);
+    let res = renovate::loader::load_flat_from_file(name);
     match res {
         Ok(res) => store.add(res),
         Err(e) => println!("{:#?}", e),
@@ -43,7 +40,7 @@ async fn load_from_github(
     org: String,
     token: String,
     github_remote: State<'_, github::remote::Github>,
-    store: State<'_, in_memory_store::ModelStore>,
+    store: State<'_, store::in_memory_store::ModelStore>,
 ) -> Result<(), ()> {
     println!("trying to get deps from github: {:#?}", org);
     let res = github::get_deps_from_github(&org, &token, github_remote.inner()).await;
@@ -62,7 +59,7 @@ async fn load_from_github(
 
 pub fn main() {
     tauri::Builder::default()
-        .manage(in_memory_store::ModelStore::default())
+        .manage(store::in_memory_store::ModelStore::default())
         .manage(github::remote::Github::new())
         .plugin(tauri_plugin_shell::init())
         .plugin(tauri_plugin_global_shortcut::Builder::new().build())

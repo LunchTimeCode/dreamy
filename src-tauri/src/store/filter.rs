@@ -1,4 +1,4 @@
-use crate::read_model::FlatDep;
+use crate::dep_core::FlatDep;
 
 pub fn filter_deps(search_string: &str, deps: Vec<FlatDep>) -> Vec<FlatDep> {
     on_flat_dep(deps, search_string)
