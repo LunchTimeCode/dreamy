@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.3.0](https://github.com/LunchTimeCode/dreamy/compare/v1.2.2...v1.3.0) (2024-06-18)
+
+
+### Features
+
+* add uuid in the backend ([73d5762](https://github.com/LunchTimeCode/dreamy/commit/73d5762c1361f02105c33b7bab15f06df48b2749))
+* all deps have a id ([8caed1f](https://github.com/LunchTimeCode/dreamy/commit/8caed1f6b18ef2d01af06a1d42d620c90cdaf0b0))
+
+
+### Bug Fixes
+
+* build ([5e3b9d0](https://github.com/LunchTimeCode/dreamy/commit/5e3b9d044112d0c6ab42bc9a0c757966e61de7ed))
+* setup biome in ci ([f6bb435](https://github.com/LunchTimeCode/dreamy/commit/f6bb435af6b2f193dd36e50f672a76354bdce0a4))
+* slow build ([5f014cf](https://github.com/LunchTimeCode/dreamy/commit/5f014cfa0a9adce902328d795c3a9c0ceb84aa5a))
+
 ## [1.2.2](https://github.com/LunchTimeCode/dreamy/compare/v1.2.1...v1.2.2) (2024-06-17)
 
 
