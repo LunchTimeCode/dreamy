@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.1](https://github.com/LunchTimeCode/dreamy/compare/v1.3.0...v1.3.1) (2024-06-18)
+
+
+### Bug Fixes
+
+* use npm to build ([6ef1915](https://github.com/LunchTimeCode/dreamy/commit/6ef1915d3c77ac1248467db6f79548dae5c96041))
+
 ## [1.3.0](https://github.com/LunchTimeCode/dreamy/compare/v1.2.2...v1.3.0) (2024-06-18)
 
 
