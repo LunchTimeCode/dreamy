@@ -21,7 +21,6 @@ pub fn load_flat_from_file(source_folder: &str) -> Result<Vec<FlatDep>, DepError
         };
 
         if ext == "json" {
-            println!("loading file, {:?}", path);
             let repo = load_from_file(path)?;
             repos.push(repo.clone());
             if organisation.is_none() {

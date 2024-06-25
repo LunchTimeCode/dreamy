@@ -9,7 +9,6 @@ pub struct Github {
 
 impl Github {
     pub fn new() -> Self {
-        println!("creating a client");
         let client = reqwest::Client::new();
         Self { client }
     }
