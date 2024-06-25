@@ -1,15 +1,21 @@
 import Button from "@mui/material/Button";
-import { invoke } from "@tauri-apps/api/core";
 import { open } from "@tauri-apps/plugin-dialog";
 import { useState } from "react";
 import "./App.css";
 import { Container, Divider, Stack, Tab, Tabs, TextField } from "@mui/material";
 import { Box } from "@mui/material";
+import { listen } from "@tauri-apps/api/event";
 import * as React from "react";
 import { useDebounceCallback } from "usehooks-ts";
 import { FlatDepCompOrNothing } from "./FlatDep.tsx";
 import type { FlatDep } from "./Represenation.ts";
-
+import {
+	loadFromGithub,
+	loadFromLocal,
+	loadFromStore,
+	loadIntoLocal,
+	loadIntoStore,
+} from "./commands.ts";
 function App() {
 	const [value, setValue] = React.useState(0);
 
@@ -24,53 +30,8 @@ function App() {
 	const [token, setToken] = useState<string>("");
 	const [org, setOrg] = useState<string>("");
 
-	async function loadFromStore(searchString: string) {
-		console.log("trying to load with", searchString);
-		// Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
-		const result = await invoke("load_from_store", {
-			filter: searchString,
-		});
-		if (typeof result === "string") {
-			const flat = asFlat(result);
-			if (flat) {
-				setFlat(flat);
-			} else {
-				console.log("no valid result: ", result);
-			}
-		}
-	}
-
-	async function loadIntoStore() {
-		// Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
-		const result = await invoke("load_into_store", { name: sourcePath });
-		if (typeof result === "string") {
-			if (flat) {
-				console.log("setting result: ", result);
-			} else {
-				console.log("no valid result: ", result);
-			}
-		}
-	}
-
-	async function loadFromGithub() {
-		// Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
-		const result = await invoke("load_from_github", { org: org, token: token });
-		if (typeof result === "string") {
-			if (flat) {
-				console.log("setting result: ", result);
-			} else {
-				console.log("no valid result: ", result);
-			}
-		}
-	}
-
-	const debouncedSetSearch = useDebounceCallback(loadFromStore, 400);
-
-	function debouncedReloadAndSearch(value: string) {
-		setSearchStringState(value);
-		console.log("search value", value);
-
-		debouncedSetSearch(value)?.then();
+	async function loadDepsFromStore() {
+		loadFromStore("").then((flats) => setFlat(flats));
 	}
 
 	async function openDialog(): Promise<void> {
@@ -79,32 +40,39 @@ function App() {
 			directory: true,
 		});
 		if (file) {
-			console.log(file);
 			setSourcePath(file);
-			await loadIntoStore();
+			await loadIntoStore(sourcePath).then(() => {
+				loadDepsFromStore().then();
+			});
 		}
-	}
-
-	async function loadDeps() {
-		await loadFromStore("");
 	}
 
 	async function loadDepsFromGithub() {
-		console.log("trying to call github");
-		loadFromGithub().then(() => {
-			console.log("tried to call github");
+		loadFromGithub(org, token).then(() => {
+			loadDepsFromStore().then();
 		});
 	}
 
-	function asFlat(raw: string): FlatDep[] | undefined {
-		if (raw.length === 0) {
-			return undefined;
+	const debouncedSetSearch = useDebounceCallback(async () => {
+		const result = await loadFromStore(searchStringState);
+		if (result) {
+			setFlat(result);
 		}
-		try {
-			return JSON.parse(raw);
-		} catch (e) {
-			return undefined;
-		}
+	}, 400);
+
+	function debouncedReloadAndSearch(value: string) {
+		setSearchStringState(value);
+		debouncedSetSearch()?.then();
+	}
+
+	async function save() {
+		await loadIntoLocal();
+	}
+
+	async function load() {
+		loadFromLocal().then(() => {
+			loadDepsFromStore().then();
+		});
 	}
 
 	return (
@@ -126,7 +94,8 @@ function App() {
 					<div className="row" />
 
 					<CustomTabPanel value={value} index={0}>
-						<Button onClick={loadDeps}>Load from Store</Button>
+						<Button onClick={save}>Save</Button>
+						<Button onClick={load}>Load</Button>
 						<FlatDepCompOrNothing
 							w={flat}
 							value={searchStringState}

@@ -36,7 +36,6 @@ pub fn load_into_store(name: &str, store: State<store::in_memory_store::ModelSto
         Ok(res) => store.add(res),
         Err(e) => println!("{:#?}", e),
     }
-    println!("deps from file stored");
 }
 
 #[tauri::command]
