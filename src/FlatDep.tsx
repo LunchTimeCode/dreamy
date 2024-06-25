@@ -1,4 +1,4 @@
-import { Box, Card, CardHeader, TextField } from "@mui/material";
+import { Box, Card, TextField } from "@mui/material";
 import { DataGrid, type GridColDef } from "@mui/x-data-grid";
 import { type FlatDep, flatDepKey } from "./Represenation.ts";
 
@@ -10,7 +10,6 @@ function FlatDepComp(props: {
 	return (
 		<>
 			<Card variant="elevation">
-				<CardHeader title="Depenencies" />
 				<TextField
 					id="outlined-basic"
 					label="Search Dependency"
