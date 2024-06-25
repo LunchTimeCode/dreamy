@@ -60,8 +60,8 @@ export function App() {
 		});
 	}
 
-	const debouncedSetSearch = useDebounceCallback(async () => {
-		const result = await loadFromStore(searchStringState);
+	const debouncedSetSearch = useDebounceCallback(async (input) => {
+		const result = await loadFromStore(input);
 		if (result) {
 			setFlat(result);
 		}
@@ -69,7 +69,7 @@ export function App() {
 
 	function debouncedReloadAndSearch(value: string) {
 		setSearchStringState(value);
-		debouncedSetSearch()?.then();
+		debouncedSetSearch(value)?.then();
 	}
 
 	async function save() {
