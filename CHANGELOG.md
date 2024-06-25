@@ -1,5 +1,26 @@
 # Changelog
 
+## [1.4.0](https://github.com/LunchTimeCode/dreamy/compare/v1.3.1...v1.4.0) (2024-06-25)
+
+
+### Features
+
+* better ui ([219883b](https://github.com/LunchTimeCode/dreamy/commit/219883bc5aeb7ab012dcb56ebb240b15c4176caa))
+* load and save from store ([9254f39](https://github.com/LunchTimeCode/dreamy/commit/9254f3940c8d319dcf13289a0d30cd39ef6230f2))
+* local store commands for perstisent storage ([a311863](https://github.com/LunchTimeCode/dreamy/commit/a311863e48dabbe561067d981e2b1660992e6553))
+
+
+### Bug Fixes
+
+* **deps:** update dependency @mui/x-data-grid to v7.7.1 ([63b720d](https://github.com/LunchTimeCode/dreamy/commit/63b720dafaceab6eef27baa60a564be86285a0eb))
+* **deps:** update dependency @mui/x-data-grid to v7.7.1 ([#26](https://github.com/LunchTimeCode/dreamy/issues/26)) ([70f518e](https://github.com/LunchTimeCode/dreamy/commit/70f518e705d2b2dc207999cc18cb6a871d8635c8))
+* **deps:** update dependency @tauri-apps/plugin-http to v2.0.0-beta.6 ([af1564c](https://github.com/LunchTimeCode/dreamy/commit/af1564c3833e60287f2949d24d59e57fd3866171))
+* **deps:** update rust crate reqwest to v0.12.5 ([9b40866](https://github.com/LunchTimeCode/dreamy/commit/9b4086649b18308ccfa0ed6a4f1bbda7a4e45173))
+* **deps:** update rust crate serde_json to v1.0.118 ([e145249](https://github.com/LunchTimeCode/dreamy/commit/e1452491999cf3cd7c99fd8fa171ebb3e97761c6))
+* **deps:** update rust crate tauri-plugin-http to v2.0.0-beta.10 ([4cf0b26](https://github.com/LunchTimeCode/dreamy/commit/4cf0b264d5544041ffeed684175ba20e9ce15c7a))
+* **deps:** update rust crate uuid to v1.9.1 ([a073de9](https://github.com/LunchTimeCode/dreamy/commit/a073de92dd350acc79acd26bfb6d2df35aaba51d))
+* **deps:** update rust crate uuid to v1.9.1 ([#34](https://github.com/LunchTimeCode/dreamy/issues/34)) ([4149eb2](https://github.com/LunchTimeCode/dreamy/commit/4149eb2fb1fb3f7d6dd512050678728493d2e3af))
+
 ## [1.3.1](https://github.com/LunchTimeCode/dreamy/compare/v1.3.0...v1.3.1) (2024-06-18)
 
 
