@@ -16,6 +16,11 @@ impl ModelStore {
         }
     }
 
+    pub fn add_single(&self, dep: FlatDep) {
+        let mut model = self.model.lock().unwrap();
+        model.insert(dep);
+    }
+
     pub fn all(&self) -> Vec<FlatDep> {
         let model = self.model.lock().unwrap();
 

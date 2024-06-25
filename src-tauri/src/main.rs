@@ -1,9 +1,15 @@
 // Prevents additional console window on Windows in release, DO NOT REMOVE!!
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
+use std::path::PathBuf;
+
 use crate::dep_core::DepError;
 use crate::dep_core::FlatDep;
+use serde_json::json;
+use tauri::Manager;
 use tauri::State;
+use tauri::Wry;
+use tauri_plugin_store::with_store;
 
 mod dep_core;
 mod github;
@@ -57,10 +63,59 @@ async fn load_from_github(
     Ok(())
 }
 
+#[tauri::command]
+async fn load_into_local(
+    in_memory_store: State<'_, store::in_memory_store::ModelStore>,
+    app_handle: tauri::AppHandle,
+) -> Result<(), ()> {
+    let stores = app_handle.state::<tauri_plugin_store::StoreCollection<Wry>>();
+    let path = PathBuf::from("store.bin");
+
+    let _ = with_store(app_handle.to_owned(), stores, path, |store| {
+        in_memory_store.all().iter().for_each(|fd| {
+            let _ = store.insert(fd.uuid.to_string(), json!(fd));
+        });
+        Ok(())
+    });
+    println!("deps stored");
+    Ok(())
+}
+
+#[tauri::command]
+async fn load_from_local(
+    in_memory_store: State<'_, store::in_memory_store::ModelStore>,
+    app_handle: tauri::AppHandle,
+) -> Result<(), ()> {
+    let stores = app_handle.state::<tauri_plugin_store::StoreCollection<Wry>>();
+    let path = PathBuf::from("store.bin");
+
+    let _ = with_store(app_handle.to_owned(), stores, path, |store| {
+        store.entries().for_each(|sfd| {
+            let pure_value: &serde_json::Value = sfd.1;
+            let fd: Result<FlatDep, _> = serde_json::from_value(pure_value.clone());
+            match fd {
+                Ok(fd) => in_memory_store.add_single(fd),
+                Err(err) => println!("could not convert {}", err),
+            };
+        });
+        Ok(())
+    });
+
+    println!("deps stored");
+    Ok(())
+}
+
 pub fn main() {
     tauri::Builder::default()
         .manage(store::in_memory_store::ModelStore::default())
         .manage(github::remote::Github::new())
+        .plugin(tauri_plugin_store::Builder::default().build())
+        .setup(|app| {
+            let store =
+                tauri_plugin_store::StoreBuilder::new("store.bin").build(app.handle().clone());
+            let _ = tauri_plugin_store::Builder::default().store(store);
+            Ok(())
+        })
         .plugin(tauri_plugin_shell::init())
         .plugin(tauri_plugin_global_shortcut::Builder::new().build())
         .plugin(tauri_plugin_clipboard_manager::init())
@@ -73,7 +128,9 @@ pub fn main() {
         .invoke_handler(tauri::generate_handler![
             load_into_store,
             load_from_store,
-            load_from_github
+            load_from_github,
+            load_from_local,
+            load_into_local
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
