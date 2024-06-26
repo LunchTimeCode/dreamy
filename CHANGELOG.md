@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.1](https://github.com/LunchTimeCode/dreamy/compare/v1.4.0...v1.4.1) (2024-06-26)
+
+
+### Bug Fixes
+
+* search bug ([0714c95](https://github.com/LunchTimeCode/dreamy/commit/0714c95b633c01b00aa7e4b625a97abe55bfd11c))
+
 ## [1.4.0](https://github.com/LunchTimeCode/dreamy/compare/v1.3.1...v1.4.0) (2024-06-25)
 
 
