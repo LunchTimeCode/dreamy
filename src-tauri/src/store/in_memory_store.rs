@@ -26,4 +26,10 @@ impl ModelStore {
 
         model.iter().cloned().collect()
     }
+
+    pub fn clear_all(&self) {
+        let mut model = self.model.lock().unwrap();
+
+        model.clear()
+    }
 }

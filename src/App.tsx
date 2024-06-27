@@ -1,5 +1,10 @@
+import AddBox from "@mui/icons-material/AddBox";
+import DeleteIcon from "@mui/icons-material/Delete";
+import FileDownload from "@mui/icons-material/FileDownload";
+import SaveIcon from "@mui/icons-material/Save";
 import {
 	AppBar,
+	ButtonGroup,
 	Divider,
 	Drawer,
 	Stack,
@@ -16,6 +21,8 @@ import { useDebounceCallback } from "usehooks-ts";
 import { FlatDepCompOrNothing } from "./FlatDep.tsx";
 import type { FlatDep } from "./Represenation.ts";
 import {
+	deleteLocal,
+	deleteMemory,
 	loadFromGithub,
 	loadFromLocal,
 	loadFromStore,
@@ -76,6 +83,15 @@ export function App() {
 		await loadIntoLocal();
 	}
 
+	async function deleteAllLocal() {
+		await deleteLocal();
+	}
+
+	async function deleteAllMemory() {
+		await deleteMemory();
+		setFlat([]);
+	}
+
 	async function load() {
 		loadFromLocal().then(() => {
 			loadDepsFromStore().then();
@@ -91,9 +107,56 @@ export function App() {
 							Dreamy
 						</Typography>
 
-						<Button onClick={toggleDrawer(true)}>Import</Button>
-						<Button onClick={save}>Save</Button>
-						<Button onClick={load}>Load</Button>
+						<Box
+							height={10}
+							width={1000}
+							marginLeft={100}
+							display="flex"
+							alignItems="center"
+							gap={1}
+							p={2}
+						>
+							<ButtonGroup variant="contained" aria-label="button group 1">
+								<Button variant="contained" disabled>
+									Interim Store
+								</Button>
+								<Button onClick={toggleDrawer(true)} startIcon={<AddBox />}>
+									Import dependencies
+								</Button>
+								<Button
+									variant="text"
+									startIcon={<DeleteIcon />}
+									onClick={deleteAllMemory}
+								>
+									Delete
+								</Button>
+							</ButtonGroup>
+
+							<Divider orientation="vertical" variant="middle" flexItem />
+
+							<ButtonGroup variant="contained" aria-label="button group 2">
+								<Button variant="contained" disabled>
+									State Store
+								</Button>
+								<Button onClick={save} startIcon={<SaveIcon />}>
+									Save
+								</Button>
+								<Button
+									variant="contained"
+									onClick={load}
+									startIcon={<FileDownload />}
+								>
+									Load
+								</Button>
+								<Button
+									variant="text"
+									onClick={deleteAllLocal}
+									startIcon={<DeleteIcon />}
+								>
+									Delete
+								</Button>
+							</ButtonGroup>
+						</Box>
 					</Toolbar>
 				</AppBar>
 
@@ -110,7 +173,7 @@ export function App() {
 						my={4}
 						display="flex"
 						alignItems="center"
-						gap={4}
+						gap={2}
 						p={2}
 					>
 						<Typography variant="h5" component="div" sx={{ flexGrow: 1 }}>

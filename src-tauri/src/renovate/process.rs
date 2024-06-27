@@ -1,4 +1,5 @@
 use super::renovate_representation;
+use crate::dep_core::extraction;
 use crate::dep_core::FlatDep;
 
 pub fn flatten(root_deps: renovate_representation::Deps) -> Vec<FlatDep> {
@@ -15,7 +16,9 @@ pub fn flatten(root_deps: renovate_representation::Deps) -> Vec<FlatDep> {
 
                 for group in groups.iter() {
                     for dep in group.deps.clone() {
+                        let now = extraction::extraction_time();
                         let flat = FlatDep::new(
+                            now,
                             org.clone(),
                             repo_name.clone(),
                             current_package_type.clone(),

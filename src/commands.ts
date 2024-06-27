@@ -49,3 +49,13 @@ export async function loadFromLocal() {
 	const result = await invoke("load_from_local");
 	console.log("result: ", result);
 }
+
+export async function deleteLocal() {
+	const result = await invoke("delete_local");
+	console.log("result: ", result);
+}
+
+export async function deleteMemory() {
+	const result = await invoke("delete_memory");
+	console.log("result: ", result);
+}

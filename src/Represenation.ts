@@ -1,5 +1,6 @@
 export interface FlatDep {
 	uuid: string;
+	extractionTimeHuman: string;
 	org: string;
 	repo: string;
 	packageType: string;

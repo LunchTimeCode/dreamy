@@ -1,4 +1,4 @@
-use crate::dep_core::{DepError, FlatDep};
+use crate::dep_core::{extraction, DepError, FlatDep};
 use reqwest::header;
 use serde_derive::{Deserialize, Serialize};
 use std::env;
@@ -138,7 +138,9 @@ pub struct GitHubDep {
 
 impl GitHubDep {
     pub fn to_flat_dep(&self, org: &str) -> FlatDep {
+        let now = extraction::extraction_time();
         FlatDep::new(
+            now,
             org.to_string(),
             self.repo.to_string(),
             self._type.to_string(),

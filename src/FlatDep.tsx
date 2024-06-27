@@ -10,15 +10,17 @@ function FlatDepComp(props: {
 	return (
 		<>
 			<Card variant="elevation">
-				<TextField
-					id="outlined-basic"
-					label="Search Dependency"
-					variant="outlined"
-					value={props.value}
-					onChange={(v) => {
-						props.setSearchValue(v.target.value);
-					}}
-				/>
+				<Box sx={{ width: "100%", marginTop: 2 }}>
+					<TextField
+						id="outlined-basic"
+						label="Search Dependency"
+						variant="outlined"
+						value={props.value}
+						onChange={(v) => {
+							props.setSearchValue(v.target.value);
+						}}
+					/>
+				</Box>
 				<Box sx={{ height: 700, width: "100%" }}>
 					<DataGrid
 						rows={props.flatDep}
@@ -37,6 +39,12 @@ const columns: GridColDef<FlatDep>[] = [
 	{
 		field: "uuid",
 		headerName: "Id",
+		width: 100,
+		editable: false,
+	},
+	{
+		field: "extractionTimeHuman",
+		headerName: "Extraction Time (UTC)",
 		width: 100,
 		editable: false,
 	},

@@ -31,7 +31,9 @@ pub fn start_app() {
             commands::load_from_store,
             commands::load_from_github,
             commands::load_from_local,
-            commands::load_into_local
+            commands::load_into_local,
+            commands::delete_local,
+            commands::delete_memory,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

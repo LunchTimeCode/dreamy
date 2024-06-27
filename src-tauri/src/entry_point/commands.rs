@@ -61,6 +61,28 @@ pub async fn load_from_github(
 }
 
 #[tauri::command]
+pub async fn delete_local(app_handle: tauri::AppHandle) -> Result<(), ()> {
+    let stores = app_handle.state::<tauri_plugin_store::StoreCollection<Wry>>();
+    let path = PathBuf::from("store.bin");
+
+    let _ = with_store(app_handle.to_owned(), stores, path, |store| {
+        store.clear()?;
+        Ok(())
+    });
+    println!("deps deleted from local");
+    Ok(())
+}
+
+#[tauri::command]
+pub async fn delete_memory(
+    in_memory_store: State<'_, store::in_memory_store::ModelStore>,
+) -> Result<(), ()> {
+    in_memory_store.clear_all();
+    println!("in memory deps cleared");
+    Ok(())
+}
+
+#[tauri::command]
 pub async fn load_into_local(
     in_memory_store: State<'_, store::in_memory_store::ModelStore>,
     app_handle: tauri::AppHandle,
@@ -98,6 +120,6 @@ pub async fn load_from_local(
         Ok(())
     });
 
-    println!("deps stored");
+    println!("deps loaded");
     Ok(())
 }

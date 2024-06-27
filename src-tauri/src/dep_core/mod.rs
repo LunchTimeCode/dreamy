@@ -1,10 +1,19 @@
+use std::time::{Duration, UNIX_EPOCH};
+
+use chrono::prelude::DateTime;
+use chrono::Utc;
+
 use serde_derive::{Deserialize, Serialize};
 use uuid::Uuid;
+
+pub mod extraction;
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize, Eq, Hash)]
 #[serde(rename_all = "camelCase")]
 pub struct FlatDep {
     pub uuid: Uuid,
+    pub extraction_time: Duration,
+    pub extraction_time_human: String,
     pub org: String,
     pub repo: String,
     pub package_type: String,
@@ -19,6 +28,7 @@ impl FlatDep {
     }
 
     pub fn new(
+        extraction_time: Duration,
         org: String,
         repo: String,
         package_type: String,
@@ -26,8 +36,14 @@ impl FlatDep {
         license: String,
         current_value: Option<String>,
     ) -> Self {
+        let d = UNIX_EPOCH + extraction_time;
+        let from = DateTime::<Utc>::from(d);
+        let datetime = from;
+        let timestamp_str = datetime.format("%d/%m/%Y").to_string();
         Self {
             uuid: random_id(),
+            extraction_time,
+            extraction_time_human: timestamp_str,
             org,
             repo,
             package_type,
