@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.5.0](https://github.com/LunchTimeCode/dreamy/compare/v1.4.1...v1.5.0) (2024-06-27)
+
+
+### Features
+
+* extraction date added ([73d2455](https://github.com/LunchTimeCode/dreamy/commit/73d24550b96b551eebfc4af3323effeec086f759))
+
+
+### Bug Fixes
+
+* add icon for windows ([1b6cdb8](https://github.com/LunchTimeCode/dreamy/commit/1b6cdb84321b4ad4ef39951af4b9042a97a1c627))
+
 ## [1.4.1](https://github.com/LunchTimeCode/dreamy/compare/v1.4.0...v1.4.1) (2024-06-26)
 
 
