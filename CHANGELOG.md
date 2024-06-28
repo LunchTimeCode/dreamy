@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.5.1](https://github.com/LunchTimeCode/dreamy/compare/v1.5.0...v1.5.1) (2024-06-28)
+
+
+### Bug Fixes
+
+* bundle icons ([579b270](https://github.com/LunchTimeCode/dreamy/commit/579b270d6e6176b56813c15213c24c90c996fe39))
+* **deps:** update rust crate log to v0.4.22 ([360f4ef](https://github.com/LunchTimeCode/dreamy/commit/360f4efc0ac8915027f0149f363fb958632fa205))
+
 ## [1.5.0](https://github.com/LunchTimeCode/dreamy/compare/v1.4.1...v1.5.0) (2024-06-27)
 
 
