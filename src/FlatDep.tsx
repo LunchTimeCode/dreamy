@@ -1,12 +1,14 @@
 import { Box, Card, TextField } from "@mui/material";
 import { DataGrid, type GridColDef } from "@mui/x-data-grid";
+import { useFlatDeps } from "./FlatStore.ts";
 import { type FlatDep, flatDepKey } from "./Represenation.ts";
 
 function FlatDepComp(props: {
-	flatDep: readonly FlatDep[];
 	value: string;
 	setSearchValue: (searchVal: string) => void;
 }) {
+	const flats = useFlatDeps();
+
 	return (
 		<>
 			<Card variant="elevation">
@@ -23,7 +25,7 @@ function FlatDepComp(props: {
 				</Box>
 				<Box sx={{ height: 700, width: "100%" }}>
 					<DataGrid
-						rows={props.flatDep}
+						rows={flats.flats}
 						columns={columns}
 						density="compact"
 						disableRowSelectionOnClick
@@ -81,18 +83,10 @@ const columns: GridColDef<FlatDep>[] = [
 ];
 
 export function FlatDepCompOrNothing(props: {
-	w: FlatDep[] | undefined;
 	value: string;
 	setSearchValue: (searchVal: string) => void;
 }) {
-	if (props.w) {
-		return (
-			<FlatDepComp
-				flatDep={props.w}
-				value={props.value}
-				setSearchValue={props.setSearchValue}
-			/>
-		);
-	}
-	return <p>{props.w}</p>;
+	return (
+		<FlatDepComp value={props.value} setSearchValue={props.setSearchValue} />
+	);
 }

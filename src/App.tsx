@@ -19,7 +19,7 @@ import { useState } from "react";
 import * as React from "react";
 import { useDebounceCallback } from "usehooks-ts";
 import { FlatDepCompOrNothing } from "./FlatDep.tsx";
-import type { FlatDep } from "./Represenation.ts";
+import { useFlatDeps } from "./FlatStore.ts";
 import {
 	deleteLocal,
 	deleteMemory,
@@ -37,15 +37,16 @@ export function App() {
 		setOpen(newOpen);
 	};
 
+	const flatsStore = useFlatDeps();
+
 	const [sourcePath, setSourcePath] = useState("");
-	const [flat, setFlat] = useState<FlatDep[]>();
 	const [searchStringState, setSearchStringState] = useState<string>("");
 
 	const [token, setToken] = useState<string>("");
 	const [org, setOrg] = useState<string>("");
 
 	async function loadDepsFromStore() {
-		loadFromStore("").then((flats) => setFlat(flats));
+		loadFromStore("").then((flats) => flatsStore.setDeps(flats || []));
 	}
 
 	async function openDialog(): Promise<void> {
@@ -70,7 +71,7 @@ export function App() {
 	const debouncedSetSearch = useDebounceCallback(async (input) => {
 		const result = await loadFromStore(input);
 		if (result) {
-			setFlat(result);
+			flatsStore.setDeps(result);
 		}
 	}, 400);
 
@@ -89,7 +90,7 @@ export function App() {
 
 	async function deleteAllMemory() {
 		await deleteMemory();
-		setFlat([]);
+		flatsStore.clear();
 	}
 
 	async function load() {
@@ -161,7 +162,6 @@ export function App() {
 				</AppBar>
 
 				<FlatDepCompOrNothing
-					w={flat}
 					value={searchStringState}
 					setSearchValue={debouncedReloadAndSearch}
 				/>
