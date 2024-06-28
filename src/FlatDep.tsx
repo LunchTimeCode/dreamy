@@ -1,11 +1,9 @@
 import DeleteIcon from "@mui/icons-material/Delete";
-import { Box, Button, Card, TextField } from "@mui/material";
+import { Box, Card, TextField } from "@mui/material";
 import {
 	DataGrid,
 	GridActionsCellItem,
 	type GridColDef,
-	GridRowModel,
-	GridRowSelectionModel,
 } from "@mui/x-data-grid";
 import { useFlatDeps } from "./FlatStore.ts";
 import { type FlatDep, flatDepKey } from "./Represenation.ts";
