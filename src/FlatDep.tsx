@@ -1,13 +1,52 @@
-import { Box, Card, TextField } from "@mui/material";
-import { DataGrid, type GridColDef } from "@mui/x-data-grid";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { Box, Button, Card, TextField } from "@mui/material";
+import {
+	DataGrid,
+	GridActionsCellItem,
+	type GridColDef,
+	GridRowModel,
+	GridRowSelectionModel,
+} from "@mui/x-data-grid";
 import { useFlatDeps } from "./FlatStore.ts";
 import { type FlatDep, flatDepKey } from "./Represenation.ts";
+import {
+	deleteLocalAndMemoryDep,
+	loadFromLocal,
+	loadFromStore,
+} from "./commands.ts";
 
 function FlatDepComp(props: {
 	value: string;
 	setSearchValue: (searchVal: string) => void;
 }) {
-	const flats = useFlatDeps();
+	const flatsStore = useFlatDeps();
+
+	function deleteSelection(id: string) {
+		deleteLocalAndMemoryDep(id).then(() => {
+			loadFromLocal().then(() => {
+				loadFromStore("").then((flats) => flatsStore.setDeps(flats || []));
+			});
+		});
+	}
+
+	const actionCols: GridColDef<FlatDep> = {
+		field: "actions",
+		type: "actions",
+		headerName: "Actions",
+		width: 100,
+		cellClassName: "actions",
+		getActions: ({ id }) => {
+			return [
+				<GridActionsCellItem
+					icon={<DeleteIcon />}
+					key={id}
+					label="Delete"
+					onClick={() => deleteSelection(id.toString())}
+					color="inherit"
+				/>,
+			];
+		},
+	};
 
 	return (
 		<>
@@ -25,10 +64,9 @@ function FlatDepComp(props: {
 				</Box>
 				<Box sx={{ height: 700, width: "100%" }}>
 					<DataGrid
-						rows={flats.flats}
-						columns={columns}
+						rows={flatsStore.flats}
+						columns={columns.concat(actionCols)}
 						density="compact"
-						disableRowSelectionOnClick
 						getRowId={(row) => flatDepKey(row)}
 					/>
 				</Box>

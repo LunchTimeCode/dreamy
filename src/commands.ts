@@ -31,31 +31,29 @@ function asFlat(raw: string): FlatDep[] | undefined {
 }
 
 export async function loadIntoStore(sourcePath: string) {
-	const result = await invoke("load_into_store", { name: sourcePath });
-	console.log("result: ", result);
+	await invoke("load_into_store", { name: sourcePath });
 }
 
 export async function loadFromGithub(org: string, token: string) {
-	const result = await invoke("load_from_github", { org: org, token: token });
-	console.log("result: ", result);
+	await invoke("load_from_github", { org: org, token: token });
 }
 
 export async function loadIntoLocal() {
-	const result = await invoke("load_into_local");
-	console.log("result: ", result);
+	await invoke("load_into_local");
 }
 
 export async function loadFromLocal() {
-	const result = await invoke("load_from_local");
-	console.log("result: ", result);
+	await invoke("load_from_local");
 }
 
 export async function deleteLocal() {
-	const result = await invoke("delete_local");
-	console.log("result: ", result);
+	await invoke("delete_local");
 }
 
 export async function deleteMemory() {
-	const result = await invoke("delete_memory");
-	console.log("result: ", result);
+	await invoke("delete_memory");
+}
+
+export async function deleteLocalAndMemoryDep(key: string) {
+	await invoke("delete_local_and_memory_dep", { depId: key });
 }

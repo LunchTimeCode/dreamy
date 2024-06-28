@@ -74,6 +74,31 @@ pub async fn delete_local(app_handle: tauri::AppHandle) -> Result<(), ()> {
 }
 
 #[tauri::command]
+pub async fn delete_local_and_memory_dep(
+    app_handle: tauri::AppHandle,
+    in_memory_store: State<'_, store::in_memory_store::ModelStore>,
+    dep_id: String,
+) -> Result<(), ()> {
+    if let Ok(as_uuid) = dep_id.parse::<uuid::Uuid>() {
+        in_memory_store.delete(as_uuid);
+
+        let stores = app_handle.state::<tauri_plugin_store::StoreCollection<Wry>>();
+        let path = PathBuf::from("store.bin");
+
+        let _ = with_store(app_handle.to_owned(), stores, path, |store| {
+            store.delete(dep_id)?;
+            Ok(())
+        });
+
+        println!("deps deleted from local");
+    } else {
+        println!("could not parse UUID");
+    };
+
+    Ok(())
+}
+
+#[tauri::command]
 pub async fn delete_memory(
     in_memory_store: State<'_, store::in_memory_store::ModelStore>,
 ) -> Result<(), ()> {

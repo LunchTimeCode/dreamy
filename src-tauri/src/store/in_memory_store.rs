@@ -32,4 +32,11 @@ impl ModelStore {
 
         model.clear()
     }
+
+    pub fn delete(&self, key: uuid::Uuid) {
+        let mut model = self.model.lock().unwrap();
+        if let Some(dep) = model.clone().iter().find(|a| a.uuid == key) {
+            model.remove(dep);
+        };
+    }
 }
