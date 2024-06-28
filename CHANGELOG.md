@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.0](https://github.com/LunchTimeCode/dreamy/compare/v1.5.1...v1.6.0) (2024-06-28)
+
+
+### Features
+
+* delete dep ([99b3417](https://github.com/LunchTimeCode/dreamy/commit/99b3417eb0aaafda9b89cc955fbd16f47652eb4c))
+
 ## [1.5.1](https://github.com/LunchTimeCode/dreamy/compare/v1.5.0...v1.5.1) (2024-06-28)
 
 
