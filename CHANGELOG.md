@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.6.1](https://github.com/LunchTimeCode/dreamy/compare/v1.6.0...v1.6.1) (2024-06-30)
+
+
+### Bug Fixes
+
+* **deps:** update material-ui monorepo ([866920e](https://github.com/LunchTimeCode/dreamy/commit/866920e836e47f1de39bc29660cc0c3e1e6e681c))
+* **deps:** update material-ui monorepo ([#48](https://github.com/LunchTimeCode/dreamy/issues/48)) ([8a7aa07](https://github.com/LunchTimeCode/dreamy/commit/8a7aa07d9859ae18ef413b76a6ee603484aa5116))
+* tsc ([3fcdf91](https://github.com/LunchTimeCode/dreamy/commit/3fcdf919b0cadfeb9169fd05fe31a37dd542ebab))
+
 ## [1.6.0](https://github.com/LunchTimeCode/dreamy/compare/v1.5.1...v1.6.0) (2024-06-28)
 
 
