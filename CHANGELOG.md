@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.6.2](https://github.com/LunchTimeCode/dreamy/compare/v1.6.1...v1.6.2) (2024-07-02)
+
+
+### Bug Fixes
+
+* **deps:** update rust crate serde_json to v1.0.119 ([10b4748](https://github.com/LunchTimeCode/dreamy/commit/10b4748d4efa9559c10398255cdac3dbd5677945))
+* **deps:** update rust crate serde_json to v1.0.120 ([476124d](https://github.com/LunchTimeCode/dreamy/commit/476124de81de145b72387277872e38677d4e061f))
+
 ## [1.6.1](https://github.com/LunchTimeCode/dreamy/compare/v1.6.0...v1.6.1) (2024-06-30)
 
 
