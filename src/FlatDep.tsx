@@ -116,6 +116,12 @@ const columns: GridColDef<FlatDep>[] = [
 		width: 200,
 		editable: false,
 	},
+	{
+		field: "license",
+		headerName: "License",
+		width: 200,
+		editable: false,
+	},
 ];
 
 export function FlatDepCompOrNothing(props: {

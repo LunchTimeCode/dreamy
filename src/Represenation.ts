@@ -6,6 +6,7 @@ export interface FlatDep {
 	packageType: string;
 	depName: string;
 	currentValue: string;
+	license: string;
 }
 
 export function flatDepKey(fd: FlatDep) {
