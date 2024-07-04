@@ -4254,9 +4254,9 @@ dependencies = [
 
 [[package]]
 name = "tauri-plugin-store"
-version = "2.0.0-beta.8"
+version = "2.0.0-beta.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7a714175f639b050b121c74b6281724f4b00e080a5a71c6821004c8aa89f8943"
+checksum = "cb57852aad7c36bb367ec95e67d1b9fd2b3e6b8365c70122f8b3688937c12fc8"
 dependencies = [
  "dunce",
  "log",
