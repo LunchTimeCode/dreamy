@@ -1,5 +1,32 @@
 # Changelog
 
+## [1.7.0](https://github.com/LunchTimeCode/dreamy/compare/v1.6.1...v1.7.0) (2024-07-04)
+
+
+### Features
+
+* add licenses to table ([3c1d1e1](https://github.com/LunchTimeCode/dreamy/commit/3c1d1e1618b43fd9dfa62fb9598fcbb580a9dc6f))
+* export to csv ([f093eec](https://github.com/LunchTimeCode/dreamy/commit/f093eecbac70ccc4a66c3eb6502c9f1a60331764))
+* load token from env ([3a54d69](https://github.com/LunchTimeCode/dreamy/commit/3a54d6943664014a167bab8ba57180924e6edac2))
+
+
+### Bug Fixes
+
+* **deps:** update dependency @tauri-apps/plugin-clipboard-manager to v2.1.0-beta.4 ([1aa69fd](https://github.com/LunchTimeCode/dreamy/commit/1aa69fd6ed6848a4f3e5df8f2b561592bf9e61ee))
+* **deps:** update dependency @tauri-apps/plugin-dialog to v2.0.0-beta.6 ([7e0c714](https://github.com/LunchTimeCode/dreamy/commit/7e0c714b5bd4744d2ba816bc41789a4ad20174b4))
+* **deps:** update dependency @tauri-apps/plugin-fs to v2.0.0-beta.6 ([9b3fc3c](https://github.com/LunchTimeCode/dreamy/commit/9b3fc3ccbca5b980fc91123e4df42c3d8dd5af66))
+* **deps:** update dependency @tauri-apps/plugin-global-shortcut to v2.0.0-beta.6 ([c5197b5](https://github.com/LunchTimeCode/dreamy/commit/c5197b50e5042b4b2994d77656f39e717a542ea3))
+* **deps:** update dependency @tauri-apps/plugin-http to v2.0.0-beta.7 ([a3a1a66](https://github.com/LunchTimeCode/dreamy/commit/a3a1a66261ca59932fe81828acc2ad077ad9fb0f))
+* **deps:** update dependency @tauri-apps/plugin-notification to v2.0.0-beta.6 ([221582c](https://github.com/LunchTimeCode/dreamy/commit/221582c5a90cb67c9d60e1a1444811f0af566320))
+* **deps:** update dependency @tauri-apps/plugin-os to v2.0.0-beta.6 ([a3385f2](https://github.com/LunchTimeCode/dreamy/commit/a3385f2ed39ae5e69f979ac5cf8fa990eb561656))
+* **deps:** update dependency @tauri-apps/plugin-process to v2.0.0-beta.6 ([fd80087](https://github.com/LunchTimeCode/dreamy/commit/fd8008766658e4024c78de82d6f62e21439b80b4))
+* **deps:** update dependency @tauri-apps/plugin-shell to v2.0.0-beta.7 ([0dd8e01](https://github.com/LunchTimeCode/dreamy/commit/0dd8e01392657a5c70b294b7cac05146aa479471))
+* **deps:** update dependency @tauri-apps/plugin-store to v2.0.0-beta.6 ([7cbbb0f](https://github.com/LunchTimeCode/dreamy/commit/7cbbb0f98477ebf71c49dea6bb263e8a3f8e9e44))
+* **deps:** update rust crate serde_json to v1.0.119 ([10b4748](https://github.com/LunchTimeCode/dreamy/commit/10b4748d4efa9559c10398255cdac3dbd5677945))
+* **deps:** update rust crate serde_json to v1.0.120 ([476124d](https://github.com/LunchTimeCode/dreamy/commit/476124de81de145b72387277872e38677d4e061f))
+* **deps:** update rust crate tauri-plugin-clipboard-manager to v2.1.0-beta.5 ([bb10d56](https://github.com/LunchTimeCode/dreamy/commit/bb10d56a8237d31c166ea66edec3eea8ea38839b))
+* update deps ([7456749](https://github.com/LunchTimeCode/dreamy/commit/74567491c9846603be4274c98feb6dadbac9a2de))
+
 ## [1.6.1](https://github.com/LunchTimeCode/dreamy/compare/v1.6.0...v1.6.1) (2024-06-30)
 
 
