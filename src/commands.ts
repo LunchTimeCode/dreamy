@@ -11,7 +11,6 @@ export async function loadFromStore(
 	if (typeof result === "string") {
 		const flat = asFlat(result);
 		if (flat) {
-			console.log("flats", flat);
 			return flat;
 		}
 		console.log("no valid result: ", result);

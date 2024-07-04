@@ -4,7 +4,10 @@ import {
 	DataGrid,
 	GridActionsCellItem,
 	type GridColDef,
+	GridToolbarContainer,
+	GridToolbarExport,
 } from "@mui/x-data-grid";
+import { CSVDownload } from "react-csv";
 import { useFlatDeps } from "./FlatStore.ts";
 import { type FlatDep, flatDepKey } from "./Represenation.ts";
 import {
@@ -65,6 +68,9 @@ function FlatDepComp(props: {
 						rows={flatsStore.flats}
 						columns={columns.concat(actionCols)}
 						density="compact"
+						slots={{
+							toolbar: CustomToolbar,
+						}}
 						getRowId={(row) => flatDepKey(row)}
 					/>
 				</Box>
@@ -130,5 +136,13 @@ export function FlatDepCompOrNothing(props: {
 }) {
 	return (
 		<FlatDepComp value={props.value} setSearchValue={props.setSearchValue} />
+	);
+}
+
+function CustomToolbar() {
+	return (
+		<GridToolbarContainer>
+			<GridToolbarExport csvOptions={{ allColumns: true }} />
+		</GridToolbarContainer>
 	);
 }

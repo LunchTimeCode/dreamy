@@ -168,7 +168,7 @@ impl RepoBom {
                 None => package
                     .license_concluded
                     .clone()
-                    .unwrap_or_else(|| "none".to_string()),
+                    .unwrap_or_else(|| "not found".to_string()),
                 Some(l) => l,
             };
 
