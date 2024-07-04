@@ -7,7 +7,6 @@ import {
 	GridToolbarContainer,
 	GridToolbarExport,
 } from "@mui/x-data-grid";
-import { CSVDownload } from "react-csv";
 import { useFlatDeps } from "./FlatStore.ts";
 import { type FlatDep, flatDepKey } from "./Represenation.ts";
 import {

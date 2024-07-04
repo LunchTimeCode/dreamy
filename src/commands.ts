@@ -53,6 +53,11 @@ export async function deleteMemory() {
 	await invoke("delete_memory");
 }
 
+export async function loadGhToken(): Promise<string> {
+	const token = await invoke("load_gh_token");
+	return token as string;
+}
+
 export async function deleteLocalAndMemoryDep(key: string) {
 	await invoke("delete_local_and_memory_dep", { depId: key });
 }

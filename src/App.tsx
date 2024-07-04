@@ -26,6 +26,7 @@ import {
 	loadFromGithub,
 	loadFromLocal,
 	loadFromStore,
+	loadGhToken,
 	loadIntoLocal,
 	loadIntoStore,
 } from "./commands.ts";
@@ -198,6 +199,7 @@ export function App() {
 							<TextField
 								id="outlined-basic2"
 								label="Token (optional)"
+								type="password"
 								variant="filled"
 								value={token}
 								onChange={(v) => {
@@ -205,7 +207,23 @@ export function App() {
 								}}
 							/>
 						</Stack>
-						<Button onClick={loadDepsFromGithub}>Get dependency graphs</Button>
+						<Button variant="contained" onClick={loadDepsFromGithub}>
+							{" "}
+							Get dependency graphs{" "}
+						</Button>
+						<Button
+							variant="text"
+							onClick={() => {
+								loadGhToken().then((token) => {
+									if (token === "notoken") {
+									} else {
+										setToken(token);
+									}
+								});
+							}}
+						>
+							Get token from environment variable
+						</Button>
 					</Box>
 					<Divider orientation="horizontal" flexItem />
 
@@ -213,7 +231,9 @@ export function App() {
 						<Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
 							Renovate
 						</Typography>
-						<Button onClick={openDialog}>Import from file</Button>
+						<Button variant="contained" onClick={openDialog}>
+							Import from file
+						</Button>
 					</Box>
 				</Drawer>
 			</div>

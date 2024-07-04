@@ -1,3 +1,4 @@
+use std::env;
 use std::path::PathBuf;
 
 use crate::dep_core::DepError;
@@ -36,6 +37,15 @@ pub fn load_into_store(name: &str, store: State<store::in_memory_store::ModelSto
         Ok(res) => store.add(res),
         Err(e) => println!("{:#?}", e),
     }
+}
+
+#[tauri::command]
+pub fn load_gh_token() -> String {
+    let Ok(personal_token) = env::var("GITHUB_TOKEN") else {
+        return "notoken".to_string();
+    };
+
+    personal_token
 }
 
 #[tauri::command]
