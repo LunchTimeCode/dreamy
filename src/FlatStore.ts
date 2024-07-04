@@ -13,3 +13,15 @@ export const useFlatDeps = create<Deps>()((set) => ({
 	setDeps: (newElements) => set(() => ({ flats: newElements })),
 	clear: () => set(() => ({ flats: [] })),
 }));
+
+interface LicenseDeps {
+	flats: FlatDep[];
+	clear: () => void;
+	setDeps: (newElement: FlatDep[]) => void;
+}
+
+export const useLicenseFlatDeps = create<LicenseDeps>()((set) => ({
+	flats: [],
+	setDeps: (newElements) => set(() => ({ flats: newElements })),
+	clear: () => set(() => ({ flats: [] })),
+}));

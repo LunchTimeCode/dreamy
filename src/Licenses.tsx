@@ -9,22 +9,22 @@ import {
 } from "@mui/x-data-grid";
 import { useState } from "react";
 import { useDebounceCallback } from "usehooks-ts";
-import { useFlatDeps } from "./FlatStore.ts";
+import { useLicenseFlatDeps } from "./FlatStore.ts";
 import { type FlatDep, flatDepKey } from "./Represenation.ts";
 import {
 	deleteLocalAndMemoryDep,
 	loadFromLocal,
-	loadFromStore,
+	loadLicensesFromStore,
 } from "./commands.ts";
 
 function FlatDepComp() {
-	const flatsStore = useFlatDeps();
+	const flatsLicenseStore = useLicenseFlatDeps();
 	const [searchStringState, setSearchStringState] = useState<string>("");
 
 	const debouncedSetSearch = useDebounceCallback(async (input) => {
-		const result = await loadFromStore(input);
+		const result = await loadLicensesFromStore(input);
 		if (result) {
-			flatsStore.setDeps(result);
+			flatsLicenseStore.setDeps(result);
 		}
 	}, 400);
 
@@ -36,7 +36,9 @@ function FlatDepComp() {
 	function deleteSelection(id: string) {
 		deleteLocalAndMemoryDep(id).then(() => {
 			loadFromLocal().then(() => {
-				loadFromStore("").then((flats) => flatsStore.setDeps(flats || []));
+				loadLicensesFromStore("").then((flats) =>
+					flatsLicenseStore.setDeps(flats || []),
+				);
 			});
 		});
 	}
@@ -66,7 +68,7 @@ function FlatDepComp() {
 				<Box sx={{ width: "100%", marginTop: 2 }}>
 					<TextField
 						id="outlined-basic"
-						label="Search Dependency"
+						label="Search License"
 						variant="outlined"
 						value={searchStringState}
 						onChange={(v) => {
@@ -76,7 +78,7 @@ function FlatDepComp() {
 				</Box>
 				<Box sx={{ height: 700, width: "100%" }}>
 					<DataGrid
-						rows={flatsStore.flats}
+						rows={flatsLicenseStore.flats}
 						columns={columns.concat(actionCols)}
 						density="compact"
 						slots={{
@@ -141,7 +143,7 @@ const columns: GridColDef<FlatDep>[] = [
 	},
 ];
 
-export function FlatDepCompOrNothing() {
+export function LicenseDepCompOrNothing() {
 	return <FlatDepComp />;
 }
 

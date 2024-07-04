@@ -30,6 +30,23 @@ pub fn load_from_store(filter: &str, store: State<store::in_memory_store::ModelS
 }
 
 #[tauri::command]
+pub fn load_licenses_from_store(
+    filter: &str,
+    store: State<store::in_memory_store::ModelStore>,
+) -> String {
+    let res: Result<Vec<FlatDep>, DepError> = if filter.is_empty() {
+        Ok(store.all())
+    } else {
+        Ok(store::filter::filter_deps_on_licenses(filter, store.all()))
+    };
+
+    match res {
+        Ok(res) => serde_json::to_string_pretty(&res).unwrap(),
+        Err(e) => format!("{:#?}", e),
+    }
+}
+
+#[tauri::command]
 pub fn load_into_store(name: &str, store: State<store::in_memory_store::ModelStore>) {
     println!("trying to get deps from file: {:#?}", name);
     let res = renovate::loader::load_flat_from_file(name);

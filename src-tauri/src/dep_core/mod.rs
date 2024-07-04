@@ -27,6 +27,10 @@ impl FlatDep {
         self.dep_name.clone()
     }
 
+    pub fn searchable_license(&self) -> String {
+        self.license.clone()
+    }
+
     pub fn new(
         extraction_time: Duration,
         org: String,

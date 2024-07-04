@@ -18,6 +18,23 @@ export async function loadFromStore(
 	}
 }
 
+export async function loadLicensesFromStore(
+	searchString: string,
+): Promise<FlatDep[] | undefined> {
+	console.log("trying to load with", searchString);
+	const result = await invoke("load_licenses_from_store", {
+		filter: searchString,
+	});
+	if (typeof result === "string") {
+		const flat = asFlat(result);
+		if (flat) {
+			return flat;
+		}
+		console.log("no valid result: ", result);
+		return undefined;
+	}
+}
+
 function asFlat(raw: string): FlatDep[] | undefined {
 	if (raw.length === 0) {
 		return undefined;

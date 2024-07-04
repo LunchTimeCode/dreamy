@@ -8,18 +8,21 @@ import {
 	Divider,
 	Drawer,
 	Stack,
+	Tabs,
 	TextField,
 	Toolbar,
 	Typography,
 } from "@mui/material";
-import { Box } from "@mui/material";
+
+import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
+import Tab from "@mui/material/Tab";
 import { open } from "@tauri-apps/plugin-dialog";
 import { useState } from "react";
 import * as React from "react";
-import { useDebounceCallback } from "usehooks-ts";
 import { FlatDepCompOrNothing } from "./FlatDep.tsx";
-import { useFlatDeps } from "./FlatStore.ts";
+import { useFlatDeps, useLicenseFlatDeps } from "./FlatStore.ts";
+import { LicenseDepCompOrNothing } from "./Licenses.tsx";
 import {
 	deleteLocal,
 	deleteMemory,
@@ -29,6 +32,7 @@ import {
 	loadGhToken,
 	loadIntoLocal,
 	loadIntoStore,
+	loadLicensesFromStore,
 } from "./commands.ts";
 
 export function App() {
@@ -39,15 +43,24 @@ export function App() {
 	};
 
 	const flatsStore = useFlatDeps();
+	const flatsLicenseStore = useLicenseFlatDeps();
 
 	const [sourcePath, setSourcePath] = useState("");
-	const [searchStringState, setSearchStringState] = useState<string>("");
+
+	const [value, setValue] = React.useState(0);
+
+	const handleChange = (_: React.SyntheticEvent, newValue: number) => {
+		setValue(newValue);
+	};
 
 	const [token, setToken] = useState<string>("");
 	const [org, setOrg] = useState<string>("");
 
 	async function loadDepsFromStore() {
 		loadFromStore("").then((flats) => flatsStore.setDeps(flats || []));
+		loadLicensesFromStore("").then((flats) =>
+			flatsLicenseStore.setDeps(flats || []),
+		);
 	}
 
 	async function openDialog(): Promise<void> {
@@ -67,18 +80,6 @@ export function App() {
 		loadFromGithub(org, token).then(() => {
 			loadDepsFromStore().then();
 		});
-	}
-
-	const debouncedSetSearch = useDebounceCallback(async (input) => {
-		const result = await loadFromStore(input);
-		if (result) {
-			flatsStore.setDeps(result);
-		}
-	}, 400);
-
-	function debouncedReloadAndSearch(value: string) {
-		setSearchStringState(value);
-		debouncedSetSearch(value)?.then();
 	}
 
 	async function save() {
@@ -162,10 +163,24 @@ export function App() {
 					</Toolbar>
 				</AppBar>
 
-				<FlatDepCompOrNothing
-					value={searchStringState}
-					setSearchValue={debouncedReloadAndSearch}
-				/>
+				<Box sx={{ width: "100%" }}>
+					<Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+						<Tabs
+							value={value}
+							onChange={handleChange}
+							aria-label="basic tabs example"
+						>
+							<Tab label="Overview" {...a11yProps(0)} />
+							<Tab label="Licenses" {...a11yProps(1)} />
+						</Tabs>
+					</Box>
+					<CustomTabPanel value={value} index={0}>
+						<FlatDepCompOrNothing />
+					</CustomTabPanel>
+					<CustomTabPanel value={value} index={1}>
+						<LicenseDepCompOrNothing />
+					</CustomTabPanel>
+				</Box>
 
 				<Drawer open={openx} anchor="right" onClose={toggleDrawer(false)}>
 					<Box
@@ -239,4 +254,33 @@ export function App() {
 			</div>
 		</>
 	);
+}
+
+interface TabPanelProps {
+	children?: React.ReactNode;
+	index: number;
+	value: number;
+}
+
+function CustomTabPanel(props: TabPanelProps) {
+	const { children, value, index, ...other } = props;
+
+	return (
+		<div
+			role="tabpanel"
+			hidden={value !== index}
+			id={`simple-tabpanel-${index}`}
+			aria-labelledby={`simple-tab-${index}`}
+			{...other}
+		>
+			{value === index && <Box sx={{ p: 3 }}>{children}</Box>}
+		</div>
+	);
+}
+
+function a11yProps(index: number) {
+	return {
+		id: `simple-tab-${index}`,
+		"aria-controls": `simple-tabpanel-${index}`,
+	};
 }
