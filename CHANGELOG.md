@@ -1,5 +1,28 @@
 # Changelog
 
+## [1.8.0](https://github.com/LunchTimeCode/dreamy/compare/v1.7.0...v1.8.0) (2024-07-14)
+
+
+### Features
+
+* license tab ([c7f445e](https://github.com/LunchTimeCode/dreamy/commit/c7f445e91ee72efa157e1ff062fd759d2a323b0e))
+
+
+### Bug Fixes
+
+* **deps:** update dependency @tauri-apps/plugin-clipboard-manager to v2.1.0-beta.5 ([e3672cf](https://github.com/LunchTimeCode/dreamy/commit/e3672cf36c2df7a84406bd637e9bd52b5b2fa06e))
+* **deps:** update dependency @tauri-apps/plugin-dialog to v2.0.0-beta.7 ([ca86775](https://github.com/LunchTimeCode/dreamy/commit/ca867758b7ddef5cfb85ccce0813b77ebe73a2c5))
+* **deps:** update dependency @tauri-apps/plugin-fs to v2.0.0-beta.7 ([e69643b](https://github.com/LunchTimeCode/dreamy/commit/e69643b2d266c07af6487f5d9fdf8854a1ed6bb6))
+* **deps:** update dependency @tauri-apps/plugin-global-shortcut to v2.0.0-beta.7 ([f67e76b](https://github.com/LunchTimeCode/dreamy/commit/f67e76bd86fc4c92286897c3ec9782a40aba2af5))
+* **deps:** update dependency @tauri-apps/plugin-http to v2.0.0-beta.8 ([af3054d](https://github.com/LunchTimeCode/dreamy/commit/af3054d11e91f3262d3fb1352a4e2b5146cc6781))
+* **deps:** update dependency @tauri-apps/plugin-notification to v2.0.0-beta.7 ([be025b0](https://github.com/LunchTimeCode/dreamy/commit/be025b099a6607d1dbaffa22f7fd90d80717b4ef))
+* **deps:** update dependency @tauri-apps/plugin-os to v2.0.0-beta.7 ([f1703c0](https://github.com/LunchTimeCode/dreamy/commit/f1703c0df5b1a400c8e32e116ed97736e1ad14da))
+* **deps:** update dependency @tauri-apps/plugin-process to v2.0.0-beta.7 ([f7c74ea](https://github.com/LunchTimeCode/dreamy/commit/f7c74eaaf7110a863c814cda2308570eeba03f95))
+* **deps:** update dependency @tauri-apps/plugin-shell to v2.0.0-beta.8 ([e5414f9](https://github.com/LunchTimeCode/dreamy/commit/e5414f9d9ae8bfd0d7d2090fe3d8c687ebdc2cd9))
+* **deps:** update dependency @tauri-apps/plugin-store to v2.0.0-beta.7 ([7f348bf](https://github.com/LunchTimeCode/dreamy/commit/7f348bf64a6d3684cfacc0740869820192f74b2a))
+* **deps:** update rust crate thiserror to v1.0.62 ([d136b0b](https://github.com/LunchTimeCode/dreamy/commit/d136b0bdf4337a47c2920253281b28f91ac230f7))
+* **deps:** update serde monorepo to v1.0.204 ([0a9fe22](https://github.com/LunchTimeCode/dreamy/commit/0a9fe2205aceb9c3c2e711c0a7be562d412a73e7))
+
 ## [1.7.0](https://github.com/LunchTimeCode/dreamy/compare/v1.6.1...v1.7.0) (2024-07-04)
 
 
