@@ -1,5 +1,30 @@
 # Changelog
 
+## [1.8.1](https://github.com/LunchTimeCode/dreamy/compare/v1.8.0...v1.8.1) (2024-08-31)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @fontsource/roboto to v5.0.14 ([0d4e50f](https://github.com/LunchTimeCode/dreamy/commit/0d4e50f84af32ae5097e28f81369c5bc2a941287))
+* **deps:** update dependency @tauri-apps/plugin-clipboard-manager to v2.1.0-beta.6 ([2118a99](https://github.com/LunchTimeCode/dreamy/commit/2118a99178d77c7f2d09c24bb27e196619f258b8))
+* **deps:** update dependency @tauri-apps/plugin-dialog to v2.0.0-rc.0 ([d1b7b70](https://github.com/LunchTimeCode/dreamy/commit/d1b7b704350d15533c60c1d01de67a42a2097028))
+* **deps:** update dependency @tauri-apps/plugin-dialog to v2.0.0-rc.1 ([d4b5c89](https://github.com/LunchTimeCode/dreamy/commit/d4b5c892e6a6b7b11129b9dee8927821c3dd2de3))
+* **deps:** update dependency @tauri-apps/plugin-fs to v2.0.0-rc.1 ([b152bca](https://github.com/LunchTimeCode/dreamy/commit/b152bcaec51cc35f940cba02f6d3c6838b23faf7))
+* **deps:** update dependency @tauri-apps/plugin-fs to v2.0.0-rc.2 ([1c4af07](https://github.com/LunchTimeCode/dreamy/commit/1c4af0705affcdf61329d08355496fa95fa4b25f))
+* **deps:** update dependency @tauri-apps/plugin-global-shortcut to v2.0.0-rc.0 ([d1d204d](https://github.com/LunchTimeCode/dreamy/commit/d1d204d38d2cc84215319e547824156070c1666d))
+* **deps:** update dependency @tauri-apps/plugin-global-shortcut to v2.0.0-rc.1 ([1da3c1b](https://github.com/LunchTimeCode/dreamy/commit/1da3c1b89dda245de9e51c96e9a4e11d7223c9db))
+* **deps:** update dependency @tauri-apps/plugin-http to v2.0.0-rc.1 ([d429ea6](https://github.com/LunchTimeCode/dreamy/commit/d429ea6bec0e78d34721ab2536f124c08543ff05))
+* **deps:** update dependency @tauri-apps/plugin-http to v2.0.0-rc.2 ([9f6eb08](https://github.com/LunchTimeCode/dreamy/commit/9f6eb083fc1450dc9fb5319141fbc70efc04a501))
+* **deps:** update dependency @tauri-apps/plugin-notification to v2.0.0-rc.0 ([27b59ce](https://github.com/LunchTimeCode/dreamy/commit/27b59ce004da6949999120d6f43a1653e6daa7e3))
+* **deps:** update dependency @tauri-apps/plugin-notification to v2.0.0-rc.1 ([f130fa7](https://github.com/LunchTimeCode/dreamy/commit/f130fa7a915971828f193683b34cb4c4b416907c))
+* **deps:** update dependency @tauri-apps/plugin-os to v2.0.0-rc.0 ([7b0c509](https://github.com/LunchTimeCode/dreamy/commit/7b0c5095e0c25bbf31c5ca4903b1bac94caac511))
+* **deps:** update dependency @tauri-apps/plugin-os to v2.0.0-rc.1 ([518827e](https://github.com/LunchTimeCode/dreamy/commit/518827e6a058e397a6f4fa8be2803e3bd17989a0))
+* **deps:** update dependency @tauri-apps/plugin-process to v2.0.0-rc.1 ([b930977](https://github.com/LunchTimeCode/dreamy/commit/b930977945ecea6f0f72f2f4675549fdf4605867))
+* **deps:** update dependency @tauri-apps/plugin-shell to v2.0.0-rc.1 ([99cc9bc](https://github.com/LunchTimeCode/dreamy/commit/99cc9bc43de6a34c40c67acc2ab3d83431d52e6d))
+* **deps:** update dependency @tauri-apps/plugin-store to v2.0.0-rc.1 ([bfedc35](https://github.com/LunchTimeCode/dreamy/commit/bfedc35e2a4ea6ec9db829a3c3ebca213dd1f9f2))
+* **deps:** update dependency vite-plugin-oxlint to v1.0.5 ([8273e0d](https://github.com/LunchTimeCode/dreamy/commit/8273e0d2d401019207ebab40ab8fdb2000da3dbd))
+* **deps:** update tauri monorepo ([a72eb9c](https://github.com/LunchTimeCode/dreamy/commit/a72eb9cb190834d88b73d44cd5b333f777960566))
+
 ## [1.8.0](https://github.com/LunchTimeCode/dreamy/compare/v1.7.0...v1.8.0) (2024-07-14)
 
 
